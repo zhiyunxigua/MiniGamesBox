@@ -21,6 +21,8 @@ package plugily.projects.minigamesbox.classic.kits.ability;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import plugily.projects.minigamesbox.api.user.IUser;
 import plugily.projects.minigamesbox.classic.PluginMain;
@@ -47,11 +49,7 @@ public class KitAbilityHandler implements Listener {
     if(!plugin.getArenaRegistry().isInArena((Player) event.getWhoClicked())) {
       return;
     }
-    for(KitAbility kitAbility : plugin.getKitAbilityManager().getKitAbilities().values()) {
-      if(user.getKit().hasAbility(kitAbility)) {
-        kitAbility.getClickConsumer().accept(event);
-      }
-    }
+    user.getKit().getAbilities().forEach(iKitAbility -> iKitAbility.getClickConsumer().accept(event));
   }
 
   @EventHandler
@@ -68,6 +66,27 @@ public class KitAbilityHandler implements Listener {
       }
     }
 
+  }
+
+  @EventHandler
+  public void onKitBlockPlace(BlockPlaceEvent event) {
+    if(!plugin.getArenaRegistry().isInArena(event.getPlayer())) {
+      return;
+    }
+    plugin.getUserManager().getUser(event.getPlayer()).getKit().getAbilities().forEach(iKitAbility -> iKitAbility.getBlockPlaceConsumer().accept(event));
+  }
+
+  @EventHandler
+  public void onKitDeathKiller(EntityDeathEvent event) {
+    org.bukkit.entity.LivingEntity entity = event.getEntity();
+    if(entity.getKiller() == null) {
+      return;
+    }
+    Player player = entity.getKiller();
+    if(!plugin.getArenaRegistry().isInArena(player)) {
+      return;
+    }
+    plugin.getUserManager().getUser(player).getKit().getAbilities().forEach(iKitAbility -> iKitAbility.getDeathEventKillerConsumer().accept(event));
   }
 
 }
