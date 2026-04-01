@@ -8,6 +8,7 @@ import plugily.projects.minigamesbox.api.kit.ability.IKitAbility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author Lagggpixel
@@ -50,6 +51,8 @@ public interface IKit {
   Object getOptionalConfiguration(String path);
 
   void addOptionalConfiguration(String path, Object object);
+
+  public List<IKitAbility> getAbilities();
 
   boolean hasAbility(IKitAbility kitAbility);
 }

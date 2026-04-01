@@ -1,5 +1,6 @@
 package plugily.projects.minigamesbox.api.kit.ability;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.function.Consumer;
@@ -12,4 +13,6 @@ public interface IKitAbility {
   String getName();
 
   Consumer<InventoryClickEvent> getClickConsumer();
+
+  Consumer<Player> getCustomPlayerPluginConsumer();
 }

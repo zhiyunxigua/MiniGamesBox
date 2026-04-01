@@ -31,6 +31,7 @@ import plugily.projects.minigamesbox.classic.kits.ability.KitAbility;
 import plugily.projects.minigamesbox.classic.utils.configuration.ConfigUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -250,8 +251,8 @@ public class Kit implements IKit {
     optionalConfiguration.put(path, object);
   }
 
-  public List<KitAbility> getAbilities() {
-    return kitAbilities;
+  public List<IKitAbility> getAbilities() {
+    return Collections.unmodifiableList(kitAbilities);
   }
 
   public void setAbilities(List<String> list) {
