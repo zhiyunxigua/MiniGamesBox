@@ -82,7 +82,7 @@ public class KitAbilityManager {
    *
    * @param name The name of the ability
    */
-  public void unregisterOption(String name) {
+  public void unregisterKitAbility(String name) {
     KitAbility option = kitAbilities.get(name);
     if(option == null) {
       return;

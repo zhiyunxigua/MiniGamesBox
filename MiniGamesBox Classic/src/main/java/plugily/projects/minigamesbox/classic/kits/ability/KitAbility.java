@@ -66,17 +66,21 @@ public class KitAbility implements IKitAbility {
         playerInteractHandler.setCancelled(true);
         new MessageBuilder("KIT_CANNOT_WEAR_ARMOR").asKey().player(playerInteractHandler.getPlayer()).sendPlayer();
       }
-    }));
+    }, customPlayerPluginEvent -> {
+    }
+    ));
   }
 
   private final String name;
   private final Consumer<InventoryClickEvent> clickConsumer;
   private final Consumer<PlugilyPlayerInteractEvent> interactConsumer;
+  private final Consumer<Player> customPlayerPluginConsumer;
 
-  public KitAbility(String name, Consumer<InventoryClickEvent> inventoryClickHandler, Consumer<PlugilyPlayerInteractEvent> playerInteractHandler) {
+  public KitAbility(String name, Consumer<InventoryClickEvent> inventoryClickHandler, Consumer<PlugilyPlayerInteractEvent> playerInteractHandler, Consumer<Player> customPlayerPluginHandler) {
     this.name = name;
     this.clickConsumer = inventoryClickHandler;
     this.interactConsumer = playerInteractHandler;
+    this.customPlayerPluginConsumer = customPlayerPluginHandler;
   }
 
   @Override
@@ -91,6 +95,10 @@ public class KitAbility implements IKitAbility {
 
   public Consumer<PlugilyPlayerInteractEvent> getInteractConsumer() {
     return interactConsumer;
+  }
+
+  public Consumer<Player> getCustomPlayerPluginConsumer() {
+    return customPlayerPluginConsumer;
   }
 
   public static Map<String, KitAbility> getKitAbilities() {
