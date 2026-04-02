@@ -22,6 +22,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -71,6 +72,7 @@ public class KitAbility implements IKitAbility {
     }, customPlayerPluginEvent -> {
     }, blockPlaceEvent -> {
     }, entityDeathEvent -> {
+    }, entityDamageByEntityEvent -> {
     }
     ));
   }
@@ -81,14 +83,16 @@ public class KitAbility implements IKitAbility {
   private final Consumer<Player> customPlayerPluginConsumer;
   private final Consumer<BlockPlaceEvent> blockPlaceConsumer;
   private final Consumer<EntityDeathEvent> deathEventKillerConsumer;
+  private final Consumer<EntityDamageByEntityEvent> playerDamageConsumer;
 
-  public KitAbility(String name, Consumer<InventoryClickEvent> inventoryClickHandler, Consumer<PlugilyPlayerInteractEvent> playerInteractHandler, Consumer<Player> customPlayerPluginHandler, Consumer<BlockPlaceEvent> blockPlaceHandler, Consumer<EntityDeathEvent> deathEventHandler) {
+  public KitAbility(String name, Consumer<InventoryClickEvent> inventoryClickHandler, Consumer<PlugilyPlayerInteractEvent> playerInteractHandler, Consumer<Player> customPlayerPluginHandler, Consumer<BlockPlaceEvent> blockPlaceHandler, Consumer<EntityDeathEvent> deathEventHandler, Consumer<EntityDamageByEntityEvent> playerDamageHandler) {
     this.name = name;
     this.clickConsumer = inventoryClickHandler;
     this.interactConsumer = playerInteractHandler;
     this.customPlayerPluginConsumer = customPlayerPluginHandler;
     this.blockPlaceConsumer = blockPlaceHandler;
     this.deathEventKillerConsumer = deathEventHandler;
+    this.playerDamageConsumer = playerDamageHandler;
   }
 
   @Override
@@ -115,6 +119,10 @@ public class KitAbility implements IKitAbility {
 
   public Consumer<EntityDeathEvent> getDeathEventKillerConsumer() {
     return deathEventKillerConsumer;
+  }
+
+  public Consumer<EntityDamageByEntityEvent> getPlayerDamageConsumer() {
+    return playerDamageConsumer;
   }
 
   public static Map<String, KitAbility> getKitAbilities() {

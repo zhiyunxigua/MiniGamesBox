@@ -2,6 +2,7 @@ package plugily.projects.minigamesbox.api.kit.ability;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
@@ -21,4 +22,6 @@ public interface IKitAbility {
   Consumer<BlockPlaceEvent> getBlockPlaceConsumer();
 
   Consumer<EntityDeathEvent> getDeathEventKillerConsumer();
+
+  Consumer<EntityDamageByEntityEvent> getPlayerDamageConsumer();
 }

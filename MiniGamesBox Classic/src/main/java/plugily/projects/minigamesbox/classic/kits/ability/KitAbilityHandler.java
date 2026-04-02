@@ -22,6 +22,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import plugily.projects.minigamesbox.api.user.IUser;
@@ -87,6 +88,18 @@ public class KitAbilityHandler implements Listener {
       return;
     }
     plugin.getUserManager().getUser(player).getKit().getAbilities().forEach(iKitAbility -> iKitAbility.getDeathEventKillerConsumer().accept(event));
+  }
+
+  @EventHandler
+  public void onKitDeathKiller(EntityDamageByEntityEvent event) {
+    if(!(event.getDamager() instanceof Player)) {
+      return;
+    }
+    IUser user = plugin.getUserManager().getUser((Player) event.getDamager());
+    if(!plugin.getArenaRegistry().isInArena(user.getPlayer())) {
+      return;
+    }
+    user.getKit().getAbilities().forEach(iKitAbility -> iKitAbility.getPlayerDamageConsumer().accept(event));
   }
 
 }
