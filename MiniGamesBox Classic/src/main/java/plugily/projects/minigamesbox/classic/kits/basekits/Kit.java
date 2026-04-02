@@ -29,6 +29,7 @@ import plugily.projects.minigamesbox.api.kit.ability.IKitAbility;
 import plugily.projects.minigamesbox.classic.PluginMain;
 import plugily.projects.minigamesbox.classic.kits.ability.KitAbility;
 import plugily.projects.minigamesbox.classic.utils.configuration.ConfigUtils;
+import plugily.projects.minigamesbox.classic.utils.version.VersionUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,6 +67,9 @@ public class Kit implements IKit {
   private ItemStack kitLeggings;
   private ItemStack kitBoots;
   private final List<KitAbility> kitAbilities = new ArrayList<>();
+  private double maxHealth;
+  private int maxFood;
+  private float walkSpeed;
 
   public Kit(String key, String name, List<String> description, ItemStack itemStack) {
     this.key = key;
@@ -73,6 +77,9 @@ public class Kit implements IKit {
     this.kitsConfig = ConfigUtils.getConfig(plugin, "/kits/" + key);
     this.description = description;
     this.itemStack = itemStack;
+    this.maxHealth = 20.0;
+    this.maxFood = 20;
+    this.walkSpeed = 0.2F;
   }
 
   @Override
@@ -165,6 +172,10 @@ public class Kit implements IKit {
     if(kitChestplate != null) player.getInventory().setChestplate(handleItem(player, kitChestplate));
     if(kitLeggings != null) player.getInventory().setLeggings(handleItem(player, kitLeggings));
     if(kitBoots != null) player.getInventory().setBoots(handleItem(player, kitBoots));
+    VersionUtils.setMaxHealth(player, maxHealth);
+    player.setHealth(VersionUtils.getMaxHealth(player));
+    player.setFoodLevel(maxFood);
+    player.setWalkSpeed(walkSpeed);
   }
 
   /**
@@ -282,5 +293,17 @@ public class Kit implements IKit {
   Use the method with the kit optional configuration path, e.g. restock.material
    */
   public void reStock(Player player) {
+  }
+
+  public void setMaxFood(int maxFood) {
+    this.maxFood = maxFood;
+  }
+
+  public void setMaxHealth(double maxHealth) {
+    this.maxHealth = maxHealth;
+  }
+
+  public void setWalkSpeed(float walkSpeed) {
+    this.walkSpeed = walkSpeed;
   }
 }

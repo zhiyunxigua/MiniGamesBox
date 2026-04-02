@@ -240,6 +240,9 @@ public class KitRegistry implements IKitRegistry {
         }
       });
     }
+    kit.setMaxHealth(kitsConfig.getDouble("Health.Max", 20.0));
+    kit.setMaxFood(kitsConfig.getInt("Food", 20));
+    kit.setWalkSpeed((float) kitsConfig.getDouble("Speed.Walk", 0.2F));
 
     plugin.getDebugger().debug("Kit " + kit.getKey() + " loaded.");
     kits.add(kit);
