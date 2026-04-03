@@ -40,7 +40,7 @@ public class HolidayManager {
   private boolean enabled = true;
 
   public HolidayManager(PluginMain plugin) {
-    if(!plugin.getConfig().getBoolean("Holidays-Enabled", true)) {
+    if(!plugin.getConfigPreferences().getOption("HOLIDAYS")) {
       enabled = false;
       return;
     }
