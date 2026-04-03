@@ -18,6 +18,8 @@
 
 package plugily.projects.minigamesbox.classic.utils.helper;
 
+import com.cryptomorin.xseries.XAttribute;
+import com.cryptomorin.xseries.XItemFlag;
 import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -37,10 +39,12 @@ import java.util.stream.Stream;
  */
 public class ArmorHelper {
   private static final List<Material> armorTypes = new ArrayList<>(Arrays.asList(Material.LEATHER_BOOTS, Material.LEATHER_CHESTPLATE, Material.LEATHER_LEGGINGS, Material.LEATHER_HELMET,
-      XMaterial.GOLDEN_BOOTS.parseMaterial(), XMaterial.GOLDEN_CHESTPLATE.parseMaterial(), XMaterial.GOLDEN_LEGGINGS.parseMaterial(),
-      XMaterial.GOLDEN_HELMET.parseMaterial(), Material.DIAMOND_BOOTS, Material.DIAMOND_LEGGINGS, Material.DIAMOND_CHESTPLATE,
+      XMaterial.GOLDEN_BOOTS.get(), XMaterial.GOLDEN_CHESTPLATE.get(), XMaterial.GOLDEN_LEGGINGS.get(),
+      XMaterial.GOLDEN_HELMET.get(), Material.DIAMOND_BOOTS, Material.DIAMOND_LEGGINGS, Material.DIAMOND_CHESTPLATE,
       Material.DIAMOND_HELMET, Material.IRON_CHESTPLATE, Material.IRON_BOOTS, Material.IRON_HELMET, Material.IRON_LEGGINGS,
-      Material.CHAINMAIL_BOOTS, Material.CHAINMAIL_LEGGINGS, Material.CHAINMAIL_CHESTPLATE, Material.CHAINMAIL_HELMET));
+      Material.CHAINMAIL_BOOTS, Material.CHAINMAIL_LEGGINGS, Material.CHAINMAIL_CHESTPLATE, Material.CHAINMAIL_HELMET,
+      XMaterial.NETHERITE_HELMET.get(), XMaterial.NETHERITE_CHESTPLATE.get(), XMaterial.NETHERITE_LEGGINGS.get(), XMaterial.NETHERITE_BOOTS.get(),
+      XMaterial.COPPER_HELMET.get(), XMaterial.COPPER_CHESTPLATE.get(), XMaterial.COPPER_LEGGINGS.get(), XMaterial.COPPER_BOOTS.get()));
 
   private ArmorHelper() {
   }
