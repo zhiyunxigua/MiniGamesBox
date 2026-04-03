@@ -46,7 +46,9 @@ public class HolidayManager {
     }
 
     registeredHolidays.add(new AprilFoolsHoliday());
+    registeredHolidays.add(new ChristmasHoliday());
     registeredHolidays.add(new HalloweenHoliday());
+    registeredHolidays.add(new NewYearHoliday());
     registeredHolidays.add(new ValentineHoliday());
 
     // Enable holidays after other plugins are enabled (after other addons register their holidays)
