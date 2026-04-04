@@ -22,6 +22,7 @@ import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import plugily.projects.minigamesbox.api.IPluginMain;
 import plugily.projects.minigamesbox.api.arena.IArenaState;
@@ -100,7 +101,9 @@ public class PluginScoreboardManager implements IPluginScoreboardManager {
     if(isLinesMaxLength(player)) {
       List<String> linesWithoutSpecialChars = new ArrayList<>();
       for(String line : lines) {
-        linesWithoutSpecialChars.add(line.replace("■ ", "").replace("|", ""));
+        linesWithoutSpecialChars.add(line
+            .replace(ChatColor.translateAlternateColorCodes('&', new MessageBuilder("COLOR_CHAT_MESSAGES").asKey().getRaw() + new MessageBuilder("COLOR_CHAT_SPECIAL_BEFORE").asKey().getRaw() + "■" + new MessageBuilder("COLOR_CHAT_MESSAGES").asKey().getRaw() + " "), "")
+            .replace(ChatColor.translateAlternateColorCodes('&', new MessageBuilder("COLOR_CHAT_SPECIAL_BEFORE").asKey().getRaw() + "|" + new MessageBuilder("COLOR_CHAT_MESSAGES").asKey().getRaw() + " "), ""));
       }
       lines = linesWithoutSpecialChars;
     }
