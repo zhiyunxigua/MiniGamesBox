@@ -20,6 +20,7 @@ package plugily.projects.minigamesbox.classic.kits.ability;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -69,7 +70,7 @@ public class KitAbilityHandler implements Listener {
 
   }
 
-  @EventHandler
+  @EventHandler(priority = EventPriority.HIGHEST)
   public void onKitBlockPlace(BlockPlaceEvent event) {
     if(!plugin.getArenaRegistry().isInArena(event.getPlayer())) {
       return;
