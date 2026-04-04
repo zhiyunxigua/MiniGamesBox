@@ -37,6 +37,7 @@ import plugily.projects.minigamesbox.classic.kits.basekits.LevelKit;
 import plugily.projects.minigamesbox.classic.kits.basekits.PremiumKit;
 import plugily.projects.minigamesbox.classic.kits.free.EmptyKit;
 import plugily.projects.minigamesbox.classic.utils.configuration.ConfigUtils;
+import plugily.projects.minigamesbox.classic.utils.helper.ItemBuilder;
 import plugily.projects.minigamesbox.classic.utils.version.VersionUtils;
 
 import java.io.File;
@@ -193,6 +194,7 @@ public class KitRegistry implements IKitRegistry {
         ConfigurationSection itemStackConfigurationSection = itemConfigurationSection.getConfigurationSection("item");
         assert itemStackConfigurationSection != null;
         ItemStack item = XItemStack.deserialize(itemStackConfigurationSection);
+        item = new ItemBuilder(item).colorizeItem().build();
         Integer slot = itemConfigurationSection.getInt("slot");
 
         kitItems.put(item, slot);
