@@ -21,21 +21,35 @@ package plugily.projects.minigamesbox.classic.utils.helper;
 import com.cryptomorin.xseries.XSound;
 import org.bukkit.entity.Player;
 import plugily.projects.minigamesbox.classic.arena.PluginArena;
+import plugily.projects.minigamesbox.classic.utils.version.VersionUtils;
 
 public class SoundHelper {
   public static void playArenaCountdown(PluginArena arena) {
-    if(arena.getTimer() > 3) {
+    if(arena.getTimer() > 5) {
       return;
     }
     for(Player player : arena.getPlayers()) {
       switch(arena.getTimer()) {
+        case 5:
+          XSound.BLOCK_NOTE_BLOCK_PLING.play(player, 1.0f, 0.5f);
+          break;
+        case 4:
+          XSound.BLOCK_NOTE_BLOCK_PLING.play(player, 1.0f, 0.6f);
+          break;
         case 3:
+          XSound.BLOCK_NOTE_BLOCK_PLING.play(player, 1.0f, 0.7f);
+          VersionUtils.sendTitles(player, "§c" + arena.getTimer(), "", 5, 20, 5);
+          break;
         case 2:
+          XSound.BLOCK_NOTE_BLOCK_PLING.play(player, 1.0f, 0.8f);
+          VersionUtils.sendTitles(player, "§6" + arena.getTimer(), "", 5, 20, 5);
+          break;
         case 1:
-          XSound.BLOCK_NOTE_BLOCK_HAT.play(player);
+          XSound.BLOCK_NOTE_BLOCK_PLING.play(player, 1.0f, 0.9f);
+          VersionUtils.sendTitles(player, "§a" + arena.getTimer(), "", 5, 20, 5);
           break;
         case 0:
-          XSound.BLOCK_NOTE_BLOCK_FLUTE.play(player);
+          XSound.ENTITY_PLAYER_LEVELUP.play(player, 1.0f, 1.0f);
           break;
       }
     }
