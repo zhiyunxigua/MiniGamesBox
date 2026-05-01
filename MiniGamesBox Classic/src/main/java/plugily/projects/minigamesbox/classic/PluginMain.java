@@ -58,6 +58,7 @@ import plugily.projects.minigamesbox.classic.handlers.permissions.PermissionsMan
 import plugily.projects.minigamesbox.classic.handlers.placeholder.PlaceholderManager;
 import plugily.projects.minigamesbox.classic.handlers.powerup.PowerupRegistry;
 import plugily.projects.minigamesbox.classic.handlers.reward.RewardsFactory;
+import plugily.projects.minigamesbox.classic.proxy.ProxyRoomsManager;
 import plugily.projects.minigamesbox.classic.handlers.setup.SetupInventory;
 import plugily.projects.minigamesbox.classic.handlers.setup.categories.PluginSetupCategoryManager;
 import plugily.projects.minigamesbox.classic.handlers.sign.SignManager;
@@ -128,6 +129,7 @@ public class PluginMain extends JavaPlugin implements IPluginMain {
   private ExceptionLogHandler exceptionLogHandler;
   private PermissionsManager permissionsManager;
   private BungeeManager bungeeManager;
+  private ProxyRoomsManager proxyRoomsManager;
   private ActionBarManager actionBarManager;
   private FileConfiguration languageConfig;
   private FileConfiguration internalData;
@@ -250,6 +252,8 @@ public class PluginMain extends JavaPlugin implements IPluginMain {
       bungeeManager = new BungeeManager(this);
       new BungeeEvents(this);
     }
+    proxyRoomsManager = new ProxyRoomsManager(this);
+    proxyRoomsManager.start();
 
     new SpectatorEvents(this);
     new JoinEvent(this);
@@ -304,7 +308,7 @@ public class PluginMain extends JavaPlugin implements IPluginMain {
   }
 
   // "arena_selector", "leaderboards", "signs"
-  private final ArrayList<String> fileNames = new ArrayList<>(Arrays.asList("internal/data", "internal/leaderboards_data", "arenas", "bungee", "rewards", "spectator", "stats", "permissions", "special_items", "mysql"));
+  private final ArrayList<String> fileNames = new ArrayList<>(Arrays.asList("internal/data", "internal/leaderboards_data", "arenas", "bungee", "proxy_rooms", "rewards", "spectator", "stats", "permissions", "special_items", "mysql"));
 
   public ArrayList<String> getFileNames() {
     return fileNames;
@@ -396,6 +400,9 @@ public class PluginMain extends JavaPlugin implements IPluginMain {
     }
     if(getConfigPreferences() != null && getLeaderboardRegistry() != null && getConfigPreferences().getOption("LEADERBOARDS")) {
       getLeaderboardRegistry().disableHolograms();
+    }
+    if(getProxyRoomsManager() != null) {
+      getProxyRoomsManager().disable();
     }
     if(getHologramManager() != null) {
       for(ArmorStand armorStand : getHologramManager().getArmorStands()) {
@@ -497,6 +504,10 @@ public class PluginMain extends JavaPlugin implements IPluginMain {
 
   public BungeeManager getBungeeManager() {
     return bungeeManager;
+  }
+
+  public ProxyRoomsManager getProxyRoomsManager() {
+    return proxyRoomsManager;
   }
 
   public FileConfiguration getLanguageConfig() {

@@ -1,0 +1,16 @@
+Enabled: false
+
+Publish-Interval-Ticks: 40
+Reservation-Delay-Ticks: 10
+Snapshot-TTL-Seconds: 15
+Reservation-TTL-Seconds: 15
+
+Redis:
+  Enabled: false
+  Host: "127.0.0.1"
+  Port: 6379
+  Password: ""
+  Database: 0
+  Use-SSL: false
+  Timeout-Millis: 2000
+  Namespace: "minigamesbox"

@@ -69,7 +69,6 @@ public class MultiLocationItem implements CategoryItemHandler {
   public MultiLocationItem(SetupInventory setupInventory, ItemBuilder item, String name, String description, String keyName, int minimumValue, Consumer<InventoryClickEvent> clickConsumer, Consumer<PlugilyPlayerInteractEvent> interactConsumer) {
     this(setupInventory, item, name, description, keyName, minimumValue, clickConsumer, interactConsumer, true, true, true);
   }
-
   public MultiLocationItem(SetupInventory setupInventory, ItemBuilder item, String name, String description, String keyName, int minimumValue, Consumer<InventoryClickEvent> clickConsumer, Consumer<PlugilyPlayerInteractEvent> interactConsumer, boolean leftClick, boolean rightClick, boolean physical) {
     this.setupInventory = setupInventory;
     this.name = name;
@@ -77,17 +76,17 @@ public class MultiLocationItem implements CategoryItemHandler {
     this.keyName = keyName;
     this.minimumValue = minimumValue;
     item
-        .name("&7Add &a" + name.toUpperCase() + " &7location")
-        .lore("&aInfo")
-        .lore("&7" + description)
-        .lore("&aStatus")
-        .lore("&7" + getSetupInfo())
-        .lore("&aControls")
-        .lore("&eLEFT_CLICK \n&7-> Add the location at the position you are standing")
-        .lore("&eSHIFT_LEFT_CLICK \n&7-> Get the setup item into your inventory")
-        .lore("&eRIGHT_CLICK \n&7-> Remove a location near your position")
-        .lore("&eSHIFT_RIGHT_CLICK \n&7-> Remove all locations")
-        .colorizeItem();
+            .name("&7添加 &a" + name.toUpperCase() + " &7位置")
+            .lore("&a信息")
+            .lore("&7" + description)
+            .lore("&a状态")
+            .lore("&7" + getSetupInfo())
+            .lore("&a控制")
+            .lore("&e左键点击 \n&7-> 在你站立的位置添加位置")
+            .lore("&eShift+左键点击 \n&7-> 将设置物品放入你的物品栏")
+            .lore("&e右键点击 \n&7-> 移除你位置附近的位置")
+            .lore("&eShift+右键点击 \n&7-> 移除所有位置")
+            .colorizeItem();
     this.item = item.build();
     this.clickConsumer = clickConsumer;
     this.interactConsumer = interactConsumer;
@@ -112,18 +111,18 @@ public class MultiLocationItem implements CategoryItemHandler {
         ItemStack itemStack =
             new ItemBuilder(item.getType())
                 .amount(1)
-                .name("&7Add &a" + name.toUpperCase() + " &7location")
-                .lore("&aInfo")
+                .name("&7添加 &a" + name.toUpperCase() + " &7位置")
+                .lore("&a信息")
                 .lore("&7" + description)
-                .lore("&aStatus")
-                .lore("&7Check in the arena editor!")
-                .lore("&aControls")
-                .lore("&eDROP \n&7-> Remove/Deactivate the item")
-                //.lore(physical ? "&ePHYSICAL \n&7-> Add a location on physical event (e.g. pressure plate)" : "&cPHYSICAL - DEACTIVATED")
-                .lore(leftClick ? "&eLEFT_CLICK_AIR \n&7-> Add the location at the position you are standing" : "&cLEFT_CLICK_AIR - DEACTIVATED")
-                .lore(leftClick ? "&eLEFT_CLICK_BLOCK \n&7-> Add the location at the position you clicked" : "&cLEFT_CLICK_BLOCK - DEACTIVATED")
-                .lore(rightClick ? "&eRIGHT_CLICK_AIR \n&7-> Teleport through locations" : "&cRIGHT_CLICK_AIR - DEACTIVATED")
-                .lore(rightClick ? "&eRIGHT_CLICK_BLOCK \n&7-> Remove a location near your position" : "&cRIGHT_CLICK_BLOCK - DEACTIVATED")
+                .lore("&a状态")
+                .lore("&7在竞技场编辑器中查看！")
+                .lore("&a控制")
+                .lore("&e丢弃 \n&7-> 移除/停用物品")
+                //.lore(physical ? "&e物理交互 \n&7-> 在物理事件上添加位置（例如压力板）" : "&c物理交互 - 已停用")
+                .lore(leftClick ? "&e左键点击空气 \n&7-> 在你站立的位置添加位置" : "&c左键点击空气 - 已停用")
+                .lore(leftClick ? "&e左键点击方块 \n&7-> 在你点击的位置添加位置" : "&c左键点击方块 - 已停用")
+                .lore(rightClick ? "&e右键点击空气 \n&7-> 在位置间传送" : "&c右键点击空气 - 已停用")
+                .lore(rightClick ? "&e右键点击方块 \n&7-> 移除你位置附近的位置" : "&c右键点击方块 - 已停用")
                 .colorizeItem()
                 .build();
         HandlerItem handlerItem = new HandlerItem(itemStack);
@@ -132,7 +131,7 @@ public class MultiLocationItem implements CategoryItemHandler {
           dropEvent.getItemDrop().remove();
           dropEvent.getPlayer().updateInventory();
           handlerItem.remove();
-          new MessageBuilder("&aRemoved/&aDeactivated the " + name.toUpperCase() + " Location item!").prefix().send(dropEvent.getPlayer());
+          new MessageBuilder("&a已移除/&a已停用 " + name.toUpperCase() + " 位置物品！").prefix().send(dropEvent.getPlayer());
         });
         handlerItem.addConsumeHandler(consumeEvent -> consumeEvent.setCancelled(true));
         handlerItem.addInteractHandler(interactEvent -> {
@@ -141,7 +140,7 @@ public class MultiLocationItem implements CategoryItemHandler {
             case PHYSICAL:
             case LEFT_CLICK_AIR:
               addLocation(interactEvent.getPlayer(), interactEvent.getPlayer().getLocation());
-              new MessageBuilder("&cPlease keep in mind to use blocks instead of player location for precise coordinates!").prefix().send(interactEvent.getPlayer());
+              new MessageBuilder("&c请记住使用方块而不是玩家位置来获得精确坐标！").prefix().send(interactEvent.getPlayer());
               break;
             case LEFT_CLICK_BLOCK:
               addLocation(interactEvent.getPlayer(), interactEvent.getClickedBlock().getLocation().clone().add(0, 1, 0));
@@ -181,10 +180,10 @@ public class MultiLocationItem implements CategoryItemHandler {
     if(!getLocationsList().isEmpty()) {
       Location location = getLocationsList().get(setupInventory.getPlugin().getRandom().nextInt(getLocationsList().size()));
       VersionUtils.teleport(player, location);
-      new MessageBuilder("&aTeleported to " + name.toUpperCase() + " Location of arena " + setupInventory.getArenaKey() + " (" + location + ")").prefix().send(player);
+      new MessageBuilder("&a已传送到竞技场 " + setupInventory.getArenaKey() + " 的 " + name.toUpperCase() + " 位置（" + location + "）").prefix().send(player);
       return;
     }
-    new MessageBuilder("&c" + name.toUpperCase() + " Location not found of arena " + setupInventory.getArenaKey()).prefix().send(player);
+    new MessageBuilder("&c未找到竞技场 " + setupInventory.getArenaKey() + " 的 " + name.toUpperCase() + " 位置").prefix().send(player);
   }
 
   private void addLocation(HumanEntity player, Location location) {
@@ -197,10 +196,10 @@ public class MultiLocationItem implements CategoryItemHandler {
       ConfigUtils.saveConfig(setupInventory.getPlugin(), config, "arenas");
     }
 
-    String progress = locs.size() >= minimumValue ? "&e✔ Completed | " : "&c✘ Not completed | ";
-    new MessageBuilder(progress + "&a" + name.toUpperCase() + " spawn added! &8(&7" + locs.size() + "/" + minimumValue + "&8)").prefix().send(player);
+    String progress = locs.size() >= minimumValue ? "&e✔ 完成 | " : "&c✘ 未完成 | ";
+    new MessageBuilder(progress + "&a" + name.toUpperCase() + " 出生点已添加！ &8(&7" + locs.size() + "/" + minimumValue + "&8)").prefix().send(player);
     if(locs.size() == minimumValue) {
-      new MessageBuilder("&eInfo | &aYou can add more than " + minimumValue + " " + name.toUpperCase() + " spawns! " + minimumValue + " is just a minimum!").prefix().send(player);
+      new MessageBuilder("&e信息 | &a你可以添加超过 " + minimumValue + " 个 " + name.toUpperCase() + " 出生点！" + minimumValue + " 只是最低要求！").prefix().send(player);
     }
   }
 
@@ -219,13 +218,13 @@ public class MultiLocationItem implements CategoryItemHandler {
           }
           config.set("instances." + setupInventory.getArenaKey() + "." + keyName, locs);
           ConfigUtils.saveConfig(setupInventory.getPlugin(), config, "arenas");
-          //considerable to add arena method to remove location
-          new MessageBuilder("&e✔ Removed | &a" + name.toUpperCase() + " location for arena " + setupInventory.getArenaKey() + "! (" + location + ")").prefix().send(player);
+          // 考虑添加竞技场方法来移除位置
+          new MessageBuilder("&e✔ 已移除 | &a竞技场 " + setupInventory.getArenaKey() + " 的 " + name.toUpperCase() + " 位置！（" + location + "）").prefix().send(player);
           return;
         }
       }
     }
-    new MessageBuilder("&cAround your position no " + name.toUpperCase() + " Location found!").prefix().send(player);
+    new MessageBuilder("&c在你的位置附近未找到 " + name.toUpperCase() + " 位置！").prefix().send(player);
   }
 
   @Nullable

@@ -49,20 +49,20 @@ public class RegisterIndicatorItem implements ClickableItem {
     ItemBuilder item;
     if(setupCategoryHandler.isDone()) {
       item = new ItemBuilder(XMaterial.GREEN_STAINED_GLASS_PANE.parseItem())
-          .name("&aDONE")
-          .lore("&aCategory")
+          .name("&a已完成")
+          .lore("&a分类")
           .lore("&6" + setupCategory.name().toUpperCase())
-          .lore("&aStatus")
-          .lore("&eCategory fully set up! Look for the red ones -_-")
+          .lore("&a状态")
+          .lore("&e分类已完全设置！寻找红色的那些 -_-")
 
           .colorizeItem();
     } else {
       item = new ItemBuilder(XMaterial.RED_STAINED_GLASS_PANE.parseItem())
-          .name("&cNEEDS SETUP")
-          .lore("&aCategory")
+          .name("&c需要设置")
+          .lore("&a分类")
           .lore("&6" + setupCategory.name().toUpperCase())
-          .lore("&aStatus")
-          .lore("&eCategory needs set up! &eYou missed some required options, &emake sure to set them up")
+          .lore("&a状态")
+          .lore("&e分类需要设置！&e你遗漏了一些必需的选项，&e请确保设置它们")
           .colorizeItem();
     }
 

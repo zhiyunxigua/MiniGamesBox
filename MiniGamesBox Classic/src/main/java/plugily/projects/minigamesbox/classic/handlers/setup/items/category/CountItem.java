@@ -69,7 +69,7 @@ public class CountItem implements CategoryItemHandler {
     this.keyName = keyName;
     setLore(item);
     item
-        .name("&7Set &a" + this.name.toUpperCase() + " &7amount")
+        .name("&7设置 &a" + this.name.toUpperCase() + " &7数量")
         .colorizeItem();
     this.item = item.build();
     this.clickConsumer = clickConsumer;
@@ -77,17 +77,17 @@ public class CountItem implements CategoryItemHandler {
   }
 
   private void setLore(ItemBuilder itemBuilder) {
-    itemBuilder.lore("&aInfo")
+    itemBuilder.lore("&a信息")
         .lore("&7" + this.description)
-        .lore("&aStatus")
+        .lore("&a状态")
         .lore("&7" + getSetupInfo())
-        .lore("&aControls")
-        .lore("&eLEFT_CLICK")
-        .lore("&7-> Increase the amount")
-        .lore("&eSHIFT_LEFT_CLICK")
-        .lore("&7-> Input number on chat")
-        .lore("&eRIGHT_CLICK")
-        .lore("&7-> Decrease the amount");
+        .lore("&a控制")
+        .lore("&e左键")
+        .lore("&7-> 增加数量")
+        .lore("&eSHIFT+左键")
+        .lore("&7-> 在聊天中输入数字")
+        .lore("&e右键")
+        .lore("&7-> 减少数量");
   }
 
   /**
@@ -128,18 +128,18 @@ public class CountItem implements CategoryItemHandler {
           protected @Nullable Prompt acceptValidatedInput(@NotNull ConversationContext conversationContext, @NotNull Number number) {
             int countInput = number.intValue();
             if(countInput < 1) {
-              conversationContext.getForWhom().sendRawMessage("§c§l✖ §cWarning | Please do not set amount lower than 1! For higher values set the number easily with chat!");
+              conversationContext.getForWhom().sendRawMessage("§c§l✖ §c警告 | 请不要将数量设置为低于 1！对于更高的数值，请通过聊天轻松设置数字！");
               countInput = 1;
             }
             updateArenaFile(countInput);
-            conversationContext.getForWhom().sendRawMessage(new MessageBuilder("&e✔ Completed | &aCount for " + name.toUpperCase() + " on " + setupInventory.getArenaKey() + " set to " + countInput).prefix().build());
+            conversationContext.getForWhom().sendRawMessage(new MessageBuilder("&e✔ 已完成 | &a计数用于" + name.toUpperCase() + " 在 " + setupInventory.getArenaKey() + " 设置到 " + countInput).prefix().build());
             //considerable to open setup inventory again?
             return Prompt.END_OF_CONVERSATION;
           }
 
           @Override
           public @NotNull String getPromptText(@NotNull ConversationContext conversationContext) {
-            return new MessageBuilder("&ePlease type in chat count of " + name.toUpperCase() + "! Only integers are allowed!").prefix().build();
+            return new MessageBuilder("&e请在聊天中输入数量" + name.toUpperCase() + "! 只允许整数!").prefix().build();
           }
         }).buildFor((Player) event.getWhoClicked());
         break;
@@ -153,7 +153,7 @@ public class CountItem implements CategoryItemHandler {
         break;
     }
     if(count < 1) {
-      event.getWhoClicked().sendMessage("§c§l✖ §cWarning | Please do not set amount lower than 1! For higher values set the number easily with chat!");
+      event.getWhoClicked().sendMessage("§c§l✖ §c警告 | 请不要将数量设置低于1！对于更高的数值，请通过聊天轻松设置数字!");
       count = 1;
     }
     clickConsumer.accept(event);

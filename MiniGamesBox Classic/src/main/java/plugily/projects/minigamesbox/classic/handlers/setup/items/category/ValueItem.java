@@ -44,12 +44,11 @@ public class ValueItem implements CategoryItemHandler {
   private final String description;
   private final String keyName;
   private final Consumer<InventoryClickEvent> clickConsumer;
-
   public ValueItem(SetupInventory setupInventory, ItemBuilder item, String name, String description, String keyName, Consumer<InventoryClickEvent> clickConsumer) {
     this.setupInventory = setupInventory;
     setLore(item);
     item
-        .name("&7Change &a" + name.toUpperCase() + " &7value")
+        .name("&7更改 &a" + name.toUpperCase() + " &7值")
         .colorizeItem();
 
     this.item = item.build();
@@ -66,13 +65,13 @@ public class ValueItem implements CategoryItemHandler {
 
 
   private void setLore(ItemBuilder itemBuilder) {
-    itemBuilder.lore("&aInfo")
-        .lore("&aInfo")
+    itemBuilder.lore("&a信息")
+        .lore("&a信息")
         .lore("&7" + description)
-        .lore("&aStatus")
+        .lore("&a状态")
         .lore("&7" + getSetupInfo())
-        .lore("&aControls")
-        .lore("&eLEFT_CLICK \n&7-> Set the value by typing in chat");
+        .lore("&a控制")
+        .lore("&e左键点击 \n&7-> 通过在聊天中输入来设置值");
   }
 
   @Override
@@ -89,13 +88,13 @@ public class ValueItem implements CategoryItemHandler {
         new SimpleConversationBuilder(setupInventory.getPlugin()).withPrompt(new StringPrompt() {
           @Override
           public @NotNull String getPromptText(ConversationContext context) {
-            return new MessageBuilder("&ePlease type in chat " + name.toUpperCase() + " name! You can use color codes.").prefix().build();
+            return new MessageBuilder("&e请在聊天中输入 " + name.toUpperCase() + " 名称！你可以使用颜色代码。").prefix().build();
           }
 
           @Override
           public Prompt acceptInput(ConversationContext context, String input) {
             String name = new MessageBuilder(input, false).build();
-            context.getForWhom().sendRawMessage(new MessageBuilder("&e✔ Completed | &aName of &7" + setupInventory.getArenaKey() + " &aset to &r" + name).prefix().build());
+            context.getForWhom().sendRawMessage(new MessageBuilder("&e✔ 完成 | &a已将 &7" + setupInventory.getArenaKey() + " &a的名称设置为 &r" + name).prefix().build());
             setupInventory.setConfig(keyName, name);
             return Prompt.END_OF_CONVERSATION;
           }

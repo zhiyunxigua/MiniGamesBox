@@ -56,7 +56,7 @@ public class BooleanItem implements CategoryItemHandler {
     this.setupInventory = setupInventory;
     setLore(item);
     item
-        .name("&7Switch &a" + name.toUpperCase() + " &7value")
+        .name("&7开关 &a" + name.toUpperCase() + " &7值")
         .colorizeItem();
     this.item = item.build();
     this.name = name;
@@ -71,13 +71,13 @@ public class BooleanItem implements CategoryItemHandler {
   }
 
   private void setLore(ItemBuilder itemBuilder) {
-    itemBuilder.lore("&aInfo")
+    itemBuilder.lore("&a信息")
         .lore("&7" + description)
-        .lore("&aStatus")
+        .lore("&a状态")
         .lore("&7" + getSetupInfo())
-        .lore("&aControls")
-        .lore("&eLEFT_CLICK \n&7-> Set the value by typing in chat")
-        .lore("&eRIGHT_CLICK \n&7-> Switch between true and false");
+        .lore("&a控制")
+        .lore("&e左键 \n&7-> 通过在聊天中输入来设置值")
+        .lore("&e右键 \n&7-> 在true和false之间切换");
   }
 
   @Override
@@ -94,16 +94,16 @@ public class BooleanItem implements CategoryItemHandler {
         new SimpleConversationBuilder(setupInventory.getPlugin()).withPrompt(new StringPrompt() {
           @Override
           public @NotNull String getPromptText(ConversationContext context) {
-            return new MessageBuilder("&ePlease type in chat one of the following words: " + "true or false" + " !").prefix().build();
+            return new MessageBuilder("&e请在聊天中输入以下单词之一：" + "true或false" + "!").prefix().build();
           }
 
           @Override
           public Prompt acceptInput(ConversationContext context, String input) {
             if(Arrays.asList("true", "false").stream().noneMatch(input::equalsIgnoreCase)) {
-              context.getForWhom().sendRawMessage(new MessageBuilder("&e✖ Only a value of the list is allowed, try again by clicking the item again").build());
+              context.getForWhom().sendRawMessage(new MessageBuilder("&e✖ 仅允许列表中的值，请再次点击该项目重试").build());
               return Prompt.END_OF_CONVERSATION;
             }
-            context.getForWhom().sendRawMessage(new MessageBuilder("&e✔ Completed | &aSet " + name.toUpperCase() + " " + setupInventory.getArenaKey() + " to " + input).prefix().build());
+            context.getForWhom().sendRawMessage(new MessageBuilder("&e✔ 已完成 | &a设置" + name.toUpperCase() + " " + setupInventory.getArenaKey() + " 到 " + input).prefix().build());
             setupInventory.setConfig(keyName, Boolean.valueOf(input));
             return Prompt.END_OF_CONVERSATION;
           }
@@ -113,7 +113,7 @@ public class BooleanItem implements CategoryItemHandler {
         boolean option = setupInventory.getConfig().getBoolean("instances." + setupInventory.getArenaKey() + "." + keyName, false);
         int position = 2;
         boolean newOption = !option;
-        event.getWhoClicked().sendMessage(new MessageBuilder("&e✔ Completed | &aSet " + name.toUpperCase() + " " + setupInventory.getArenaKey() + " to " + newOption).prefix().build());
+        event.getWhoClicked().sendMessage(new MessageBuilder("&e✔ 已完成 | &a设置 " + name.toUpperCase() + " " + setupInventory.getArenaKey() + " 到 " + newOption).prefix().build());
         setupInventory.setConfig(keyName, newOption);
         InventoryHolder holder = event.getInventory().getHolder();
         if(holder instanceof RefreshableFastInv) {

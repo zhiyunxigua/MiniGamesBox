@@ -57,7 +57,7 @@ public class SwitchItem implements CategoryItemHandler {
     this.switches = switches;
     setLore(item);
     item
-        .name("&7Switch &a" + name.toUpperCase() + " &7value")
+        .name("&7切换 &a" + name.toUpperCase() + " &7值")
         .colorizeItem();
     this.item = item.build();
     this.name = name;
@@ -72,13 +72,13 @@ public class SwitchItem implements CategoryItemHandler {
   }
 
   private void setLore(ItemBuilder itemBuilder) {
-    itemBuilder.lore("&aInfo")
+    itemBuilder.lore("&a信息")
         .lore("&7" + description)
-        .lore("&aStatus")
+        .lore("&a状态")
         .lore("&7" + getSetupInfo())
-        .lore("&aControls")
-        .lore("&eLEFT_CLICK \n&7-> Set the value by typing in chat")
-        .lore("&eRIGHT_CLICK \n&7-> Switch between the values");
+        .lore("&a控制")
+        .lore("&e左键点击 \n&7-> 通过在聊天中输入来设置值")
+        .lore("&e右键点击 \n&7-> 在值之间切换");
   }
 
   @Override
@@ -95,16 +95,16 @@ public class SwitchItem implements CategoryItemHandler {
         new SimpleConversationBuilder(setupInventory.getPlugin()).withPrompt(new StringPrompt() {
           @Override
           public @NotNull String getPromptText(ConversationContext context) {
-            return new MessageBuilder("&ePlease type in chat one of the following words: " + switches.toString().toLowerCase() + " !").prefix().build();
+            return new MessageBuilder("&e请在聊天中输入以下单词之一：" + switches.toString().toLowerCase() + "！").prefix().build();
           }
 
           @Override
           public Prompt acceptInput(ConversationContext context, String input) {
             if(switches.stream().noneMatch(input::equalsIgnoreCase)) {
-              context.getForWhom().sendRawMessage(new MessageBuilder("&e✖ Only a value of the list is allowed, try again by clicking the item again").build());
+              context.getForWhom().sendRawMessage(new MessageBuilder("&e✖ 只允许使用列表中的值，请再次点击物品重试").build());
               return Prompt.END_OF_CONVERSATION;
             }
-            context.getForWhom().sendRawMessage(new MessageBuilder("&e✔ Completed | &aSet " + name.toUpperCase() + " " + setupInventory.getArenaKey() + " to " + input).prefix().build());
+            context.getForWhom().sendRawMessage(new MessageBuilder("&e✔ 完成 | &a已将 " + name.toUpperCase() + " " + setupInventory.getArenaKey() + " 设置为 " + input).prefix().build());
             setupInventory.setConfig(keyName, input);
             return Prompt.END_OF_CONVERSATION;
           }
@@ -114,7 +114,7 @@ public class SwitchItem implements CategoryItemHandler {
         String option = setupInventory.getConfig().getString("instances." + setupInventory.getArenaKey() + "." + keyName, switches.get(0));
         int position = switches.indexOf(option);
         String newOption = switches.get(switches.size() - 1 <= position ? 0 : position + 1);
-        event.getWhoClicked().sendMessage(new MessageBuilder("&e✔ Completed | &aSet " + name.toUpperCase() + " " + setupInventory.getArenaKey() + " to " + newOption).prefix().build());
+        event.getWhoClicked().sendMessage(new MessageBuilder("&e✔ 完成 | &a已将 " + name.toUpperCase() + " " + setupInventory.getArenaKey() + " 设置为 " + newOption).prefix().build());
         setupInventory.setConfig(keyName, newOption);
         InventoryHolder holder = event.getInventory().getHolder();
         if(holder instanceof RefreshableFastInv) {

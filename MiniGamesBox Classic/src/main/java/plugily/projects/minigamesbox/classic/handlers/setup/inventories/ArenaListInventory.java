@@ -74,10 +74,10 @@ public class ArenaListInventory extends NormalFastInv implements InventoryHandle
 
       addItem(ClickableItem.of(new ItemBuilder(material)
           .name("ID | " + arena.getId())
-          .lore("&aControls")
-          .lore("&eLEFT_CLICK \n&7-> Edit arena")
-          .lore("&eSHIFT_LEFT_CLICK \n&7-> Clone arena")
-          .lore("&eSHIFT_RIGHT_CLICK \n&7-> Delete arena")
+          .lore("&a控制")
+          .lore("&e左键 \n&7-> 编辑竞技场")
+          .lore("&eSHIFT+左键 \n&7-> 克隆竞技场")
+          .lore("&eSHIFT+右键 \n&7-> 删除竞技场")
           .colorizeItem()
           .build(), event -> {
         event.setCancelled(true);
@@ -91,13 +91,13 @@ public class ArenaListInventory extends NormalFastInv implements InventoryHandle
             new SimpleConversationBuilder(setupInventory.getPlugin()).withPrompt(new StringPrompt() {
               @Override
               public @NotNull String getPromptText(ConversationContext context) {
-                return new MessageBuilder("&ePlease type in chat 'delete' ! &cType in 'CANCEL' to cancel!").prefix().build();
+                return new MessageBuilder("&e请在聊天中输入 'delete'！&c输入 'CANCEL' 以取消！").prefix().build();
               }
 
               @Override
               public Prompt acceptInput(ConversationContext context, String input) {
                 if(!input.equalsIgnoreCase("delete")) {
-                  context.getForWhom().sendRawMessage(new MessageBuilder("&cDelete operation canceled").prefix().build());
+                  context.getForWhom().sendRawMessage(new MessageBuilder("&c删除操作已取消").prefix().build());
                   return Prompt.END_OF_CONVERSATION;
                 }
                 setupInventory.getPlugin().getArenaRegistry().unregisterArena(arena);
@@ -117,14 +117,14 @@ public class ArenaListInventory extends NormalFastInv implements InventoryHandle
             new SimpleConversationBuilder(setupInventory.getPlugin()).withPrompt(new StringPrompt() {
               @Override
               public @NotNull String getPromptText(ConversationContext context) {
-                return new MessageBuilder("&ePlease type in chat new arena name ! &cType in 'CANCEL' to cancel!").prefix().build();
+                return new MessageBuilder("&e请在聊天中输入新的竞技场名称！&c输入 'CANCEL' 来取消！").prefix().build();
               }
 
               @Override
               public Prompt acceptInput(ConversationContext context, String input) {
                 String name = new MessageBuilder(input, false).build();
                 if(name.contains(" ")) {
-                  context.getForWhom().sendRawMessage(new MessageBuilder("&cThe arena key needs to be without spaces. You can give it a nice map name later ;)").prefix().build());
+                  context.getForWhom().sendRawMessage(new MessageBuilder("&c竞技场键不能有空格。你可以之后给它起一个好听的地图名称 ;)").prefix().build());
                   return Prompt.END_OF_CONVERSATION;
                 }
                 setupInventory.createInstanceInConfig(name, (Player) context.getForWhom());

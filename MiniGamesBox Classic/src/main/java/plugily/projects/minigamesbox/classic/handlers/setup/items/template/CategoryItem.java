@@ -46,9 +46,9 @@ public class CategoryItem implements ClickableItem {
   public ItemStack getItem() {
     ItemBuilder item = new ItemBuilder(XMaterial.GOLD_INGOT.parseMaterial());
     item
-        .name("&bCategory &7| &6" + setupCategory.name().toUpperCase())
-        .lore("&aControls")
-        .lore("&eCLICK \n&7-> Category Tutorial")
+        .name("&b分类 &7| &6" + setupCategory.name().toUpperCase())
+        .lore("&a控制")
+        .lore("&e点击 \n&7-> 分类教程")
         .colorizeItem();
     return item.build();
   }
@@ -56,8 +56,8 @@ public class CategoryItem implements ClickableItem {
   @Override
   public void onClick(InventoryClickEvent event) {
     setupInventory.closeInventory(event.getWhoClicked());
-    //ToDo
-    new MessageBuilder("&6Check tutorial video at").prefix().send(event.getWhoClicked());
+    //待办
+    new MessageBuilder("&6查看教程视频于").prefix().send(event.getWhoClicked());
     new MessageBuilder("&7" + setupCategory.getTutorialURL(), false).send(event.getWhoClicked());
   }
 }

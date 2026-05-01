@@ -73,17 +73,17 @@ public class SetupInventory {
     switch(inventoryStage) {
       default:
       case HOME:
-        new HomeInventory(54, plugin.getPluginMessagePrefix() + "Setup Menu", this).open(player);
+        new HomeInventory(54, plugin.getPluginMessagePrefix() + "设置菜单", this).open(player);
         break;
       case ARENA_LIST:
         if(plugin.getArenaRegistry().getArenas().isEmpty()) {
-          new MessageBuilder("&cThere are no arenas. Create one first!").prefix().send(player);
+          new MessageBuilder("&c没有竞技场。请先创建一个！").prefix().send(player);
           return;
         }
-        new ArenaListInventory(54, plugin.getPluginMessagePrefix() + "Setup Menu | Arenas", this).open(player);
+        new ArenaListInventory(54, plugin.getPluginMessagePrefix() + "设置菜单 | 竞技场", this).open(player);
         break;
       case ARENA_EDITOR:
-        new ArenaEditorInventory(54, plugin.getPluginMessagePrefix() + "Arena Editor Menu", this).open(player);
+        new ArenaEditorInventory(54, plugin.getPluginMessagePrefix() + "竞技场编辑器菜单", this).open(player);
         break;
     }
     sendProTip(player);
@@ -137,46 +137,46 @@ public class SetupInventory {
     Object option = getConfig().get("instances." + getArenaKey() + "." + path);
 
     if(option != null) {
-      return "&a&l✔ Completed &7(value: &8" + option + "&7)";
+      return "&a&l✔ 已完成 &7(值: &8" + option + "&7)";
     }
 
-    return "&c&l✘ Not Completed | Reason: No data";
+    return "&c&l✘ 未完成 | 原因: 无数据";
   }
 
   public String isSectionOptionDone(String path, int minimum) {
     ConfigurationSection section = getConfig().getConfigurationSection("instances." + getArenaKey() + "." + path);
     if(minimum == 0 && section == null) {
-      return "&e&l✔ Optional";
+      return "&e&l✔ 可选";
     }
     if(section != null) {
       int keysSize = section.getKeys(false).size();
 
       if(keysSize < minimum) {
-        return "&c&l✘ Not Completed | &cPlease add more locations";
+        return "&c&l✘ 未完成 | &c请添加更多位置";
       }
 
-      return "&a&l✔ Completed &7(value: &8" + keysSize + "&7)";
+      return "&a&l✔ 已完成 &7(值: &8" + keysSize + "&7)";
     }
 
-    return "&c&l✘ Not Completed | Reason: No data";
+    return "&c&l✘ 未完成 | 原因: 无数据";
   }
 
   public String isLocationSectionOptionDone(String path, int minimum) {
     List<String> option = getConfig().getStringList("instances." + getArenaKey() + "." + path);
     if(minimum == 0 && option.isEmpty()) {
-      return "&e&l✔ Optional";
+      return "&e&l✔ 可选";
     }
     if(!option.isEmpty()) {
       Location location = LocationSerializer.getLocation(option.get(0));
       if(location != null) {
         int keysSize = option.size();
         if(keysSize < minimum) {
-          return "&c&l✘ Not Completed | &cPlease add more locations";
+          return "&c&l✘ 未完成 | &c请添加更多位置";
         }
-        return "&a&l✔ Completed &7(value: &8" + keysSize + "&7)";
+        return "&a&l✔ 已完成 &7(值: &8" + keysSize + "&7)";
       }
     }
-    return "&c&l✘ Not Completed | Reason: No data";
+    return "&c&l✘ 未完成 | 原因: 无数据";
   }
 
   public String isLocationOptionDone(String path) {
@@ -184,10 +184,10 @@ public class SetupInventory {
     if(option != null) {
       Location location = LocationSerializer.getLocation(option);
       if(location != null) {
-        return "&a&l✔ Completed &7(value: &8" + option + "&7)";
+        return "&a&l✔ 已完成 &7(值: &8" + option + "&7)";
       }
     }
-    return "&c&l✘ Not Completed | Reason: No data";
+    return "&c&l✘ 未完成 | 原因: 无数据";
   }
 
   public int getMinimumValue(String path) {
@@ -198,28 +198,28 @@ public class SetupInventory {
   public void sendProTip(HumanEntity entity) {
     switch(plugin.getRandom().nextInt(35)) {
       case 0:
-        new MessageBuilder("&e&lTIP: &7We also got premade setups, check them out on &8https://wiki.plugily.xyz/" + plugin.getPluginNamePrefixLong().toLowerCase() + "/setup/maps", false).send(entity);
+        new MessageBuilder("&e&l小贴士: &7我们还有预制的设置，请在 &8https://wiki.plugily.xyz/" + plugin.getPluginNamePrefixLong().toLowerCase() + "/setup/maps &7查看", false).send(entity);
         break;
       case 1:
-        new MessageBuilder("&e&lTIP: &7Help us translating plugin to your language here: https://translate.plugily.xyz", false).send(entity);
+        new MessageBuilder("&e&l小贴士: &7帮助我们翻译插件到你的语言：https://translate.plugily.xyz", false).send(entity);
         break;
       case 2:
-        new MessageBuilder("&e&lTIP: &7PlaceholderApi plugin is supported with our plugin! Check here: https://wiki.plugily.xyz/" + plugin.getPluginNamePrefixLong().toLowerCase() + "/placeholders/placeholderapi", false).send(entity);
+        new MessageBuilder("&e&l小贴士: &7PlaceholderApi 插件已支持我们的插件！查看：https://wiki.plugily.xyz/" + plugin.getPluginNamePrefixLong().toLowerCase() + "/placeholders/placeholderapi", false).send(entity);
         break;
       case 3:
-        new MessageBuilder("&e&lTIP: &7Achievements, custom kits and replay ability are things available in our paid addon for this minigame: https://patreon.com/plugily", false).send(entity);
+        new MessageBuilder("&e&l小贴士: &7成就、自定义工具包和回放功能是我们为这个小游戏提供的付费附加插件中的内容：https://patreon.com/plugily", false).send(entity);
         break;
       case 4:
-        new MessageBuilder("&e&lTIP: &7We are open source! You can always help us by contributing! Check https://github.com/Plugily-Projects/", false).send(entity);
+        new MessageBuilder("&e&l小贴士: &7我们是开源的！你可以随时通过贡献来帮助我们！查看 https://github.com/Plugily-Projects/", false).send(entity);
         break;
       case 5:
-        new MessageBuilder("&e&lTIP: &7Need help? Check wiki &8https://wiki.plugily.xyz/" + plugin.getPluginNamePrefixLong().toLowerCase() + " &7or discord https://discord.plugily.xyz", false).send(entity);
+        new MessageBuilder("&e&l小贴士: &7需要帮助？查看维基 &8https://wiki.plugily.xyz/" + plugin.getPluginNamePrefixLong().toLowerCase() + " &7或 Discord https://discord.plugily.xyz", false).send(entity);
         break;
       case 6:
-        new MessageBuilder("&e&lTIP: &7If you like our plugins: You can support us on patreon https://patreon.com/plugily", false).send(entity);
+        new MessageBuilder("&e&l小贴士: &7如果你喜欢我们的插件：你可以在 patreon 上支持我们 https://patreon.com/plugily", false).send(entity);
         break;
       case 7:
-        new MessageBuilder("&e&lTIP: &7Suggest new ideas for the plugin or vote on current ones! https://app.feedbacky.net/b/" + plugin.getPluginNamePrefixLong().toLowerCase(), false).send(entity);
+        new MessageBuilder("&e&l小贴士: &7为插件提出新想法或对现有想法投票！https://app.feedbacky.net/b/" + plugin.getPluginNamePrefixLong().toLowerCase(), false).send(entity);
         break;
       default:
         break;
@@ -228,7 +228,7 @@ public class SetupInventory {
 
   public void createInstanceInConfig(String id, Player player) {
     if(ConfigUtils.getConfig(plugin, "arenas").contains("instances." + id)) {
-      player.sendRawMessage(ChatColor.DARK_RED + "Instance/Arena already exists! Use another ID or delete it first!");
+      player.sendRawMessage(ChatColor.DARK_RED + "实例/竞技场已存在！请使用其他 ID 或先删除它！");
       return;
     }
     String path = "instances." + id + ".";
@@ -239,19 +239,19 @@ public class SetupInventory {
     plugin.getArenaRegistry().registerArena(id);
 
     player.sendRawMessage(ChatColor.BOLD + "------------------------------------------");
-    player.sendRawMessage(new MessageBuilder("      &eInstance &6" + id + " &ecreated!").build());
+    player.sendRawMessage(new MessageBuilder("      &e实例 &6" + id + " &e已创建！").build());
     player.sendRawMessage("");
-    new TextComponentBuilder("&aEdit this arena via &7/" + plugin.getCommandAdminPrefix() + " setup edit " + id).player(player)
+    new TextComponentBuilder("&a通过 &7/" + plugin.getCommandAdminPrefix() + " setup edit " + id + " &a编辑此竞技场").player(player)
         .setHoverEvent(TextComponentBuilder.HoverAction.SHOW_TEXT, "/" + plugin.getCommandAdminPrefix() + " setup edit " + id)
         .setClickEvent(TextComponentBuilder.ClickAction.RUN_COMMAND, "/" + plugin.getCommandAdminPrefix() + " setup edit " + id)
         .sendPlayer();
     player.sendRawMessage("");
-    new TextComponentBuilder("&aEnter Setup Inventory via &7/" + plugin.getCommandAdminPrefix() + " setup").player(player)
+    new TextComponentBuilder("&a通过 &7/" + plugin.getCommandAdminPrefix() + " setup &a进入设置界面").player(player)
         .setHoverEvent(TextComponentBuilder.HoverAction.SHOW_TEXT, "/" + plugin.getCommandAdminPrefix() + " setup")
         .setClickEvent(TextComponentBuilder.ClickAction.RUN_COMMAND, "/" + plugin.getCommandAdminPrefix() + " setup")
         .sendPlayer();
     player.sendRawMessage("");
-    player.sendRawMessage(ChatColor.GOLD + "Don't know where to start? Check out the tutorial video at");
+    player.sendRawMessage(ChatColor.GOLD + "不知道从哪里开始？请查看教程视频");
     player.sendRawMessage(ChatColor.GRAY + TUTORIAL_SITE + getPlugin().getPluginNamePrefixLong());
     player.sendRawMessage(ChatColor.BOLD + "-------------------------------------------");
   }

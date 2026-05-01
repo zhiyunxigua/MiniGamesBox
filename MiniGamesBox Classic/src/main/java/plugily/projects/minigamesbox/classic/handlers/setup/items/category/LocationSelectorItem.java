@@ -61,16 +61,16 @@ public class LocationSelectorItem implements CategoryItemHandler {
     this.description = description;
     this.keyName = keyName;
     item
-        .name("&7Set &a" + name.toUpperCase() + " &7location selection")
-        .lore("&aInfo")
+        .name("&7设置 &a" + name.toUpperCase() + " &7地点选择")
+        .lore("&a信息")
         .lore("&7" + description)
-        .lore("&aStatus")
+        .lore("&a状态")
         .lore("&7" + getSetupInfo())
-        .lore("&aControls")
-        .lore("&eLEFT_CLICK \n&7-> Set the locations of the selector item")
-        .lore("&eSHIFT_LEFT_CLICK \n&7-> Get the selector item into your inventory")
-        .lore("&eRIGHT_CLICK \n&7-> Teleport to location 1")
-        .lore("&eSHIFT_RIGHT_CLICK \n&7-> Remove the location near your position")
+        .lore("&a控制")
+        .lore("&e左键 \n&7-> 设置选择器项的位置")
+        .lore("&eSHIFT+左键 \n&7-> 将选择器物品放入你的物品栏")
+        .lore("&e右键 \n&7-> 传送到位置1")
+        .lore("&eSHIFT+右键 \n&7-> 移除您位置附近的地点")
         .colorizeItem();
     this.item = item.build();
     this.clickConsumer = clickConsumer;
@@ -113,23 +113,23 @@ public class LocationSelectorItem implements CategoryItemHandler {
       Location location = LocationSerializer.getLocation(getRawLocation());
       if(location != null) {
         VersionUtils.teleport(player, location);
-        new MessageBuilder("&aTeleported to " + name.toUpperCase() + " Location of arena " + setupInventory.getArenaKey()).prefix().send(player);
+        new MessageBuilder("&a传送到" + name.toUpperCase() + "位置在竞技场" + setupInventory.getArenaKey()).prefix().send(player);
         return;
       }
     }
-    new MessageBuilder("&c" + name.toUpperCase() + " Location not found of arena " + setupInventory.getArenaKey()).prefix().send(player);
+    new MessageBuilder("&c" + name.toUpperCase() + "位置没有找到在竞技场" + setupInventory.getArenaKey()).prefix().send(player);
   }
 
   private void addLocation(HumanEntity player) {
     CuboidSelector.Selection selection = setupInventory.getPlugin().getCuboidSelector().getSelection((Player) player);
     if(selection == null || selection.getFirstPos() == null || selection.getSecondPos() == null) {
-      new MessageBuilder("&cPlease select both corners before adding an " + name.toUpperCase() + " location!").prefix().send(player);
+      new MessageBuilder("&c请在添加前选择两个角" + name.toUpperCase() + "位置!").prefix().send(player);
       return;
     }
 
     LocationSerializer.saveLoc(setupInventory.getPlugin(), setupInventory.getConfig(), "arenas", "instances." + setupInventory.getArenaKey() + "." + keyName + ".1", selection.getFirstPos());
     LocationSerializer.saveLoc(setupInventory.getPlugin(), setupInventory.getConfig(), "arenas", "instances." + setupInventory.getArenaKey() + "." + keyName + ".2", selection.getSecondPos());
-    new MessageBuilder("&e✔ Completed | &a" + name.toUpperCase() + " location for arena " + setupInventory.getArenaKey() + " set at your location!").prefix().send(player);
+    new MessageBuilder("&e✔ 已完成 | &a" + name.toUpperCase() + "位置在竞技场" + setupInventory.getArenaKey() + "设置在你的位置!").prefix().send(player);
   }
 
   private void removeLocation(HumanEntity player) {
@@ -140,12 +140,12 @@ public class LocationSelectorItem implements CategoryItemHandler {
         if(distance <= 3) {
           setupInventory.setConfig(keyName, null);
           //considerable to add arena method to remove location
-          new MessageBuilder("&e✔ Removed | &a" + name.toUpperCase() + " location for arena " + setupInventory.getArenaKey() + "!").prefix().send(player);
+          new MessageBuilder("&e✔ 已移除 | &a" + name.toUpperCase() + "位置在竞技场" + setupInventory.getArenaKey() + "!").prefix().send(player);
           return;
         }
       }
     }
-    new MessageBuilder("&cAround your position no " + name.toUpperCase() + " Location found!").prefix().send(player);
+    new MessageBuilder("&c你的位置周围没有" + name.toUpperCase() + "找到竞技场!").prefix().send(player);
   }
 
   @Nullable

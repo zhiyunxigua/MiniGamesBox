@@ -40,19 +40,18 @@ public class ArenaDataItem implements ClickableItem {
   public ArenaDataItem(SetupInventory setupInventory) {
     this.setupInventory = setupInventory;
   }
-
   @Override
   public ItemStack getItem() {
     ItemBuilder item = new ItemBuilder(XMaterial.BREAD.parseMaterial())
-        .name("&a&l► Arena Information ◄")
-        .lore(ChatColor.GRAY + "Saves the current progress")
-        .lore("&aControls")
-        .lore("&eLEFT_CLICK \n&7-> Main tutorial video")
-        .lore("&eRIGHT_CLICK \n&7-> Reload arena data");
+        .name("&a&l► 竞技场信息 ◄")
+        .lore(ChatColor.GRAY + "保存当前进度")
+        .lore("&a控制")
+        .lore("&e左键点击 \n&7-> 主教程视频")
+        .lore("&e右键点击 \n&7-> 重新加载竞技场数据");
     ConfigurationSection section = setupInventory.getConfig().getConfigurationSection("instances." + setupInventory.getArenaKey());
     if(section != null) {
       item
-          .lore("Values on file: " + section.getKeys(true));
+              .lore("文件中的值：" + section.getKeys(true));
     }
     return item.colorizeItem().build();
   }
@@ -62,12 +61,12 @@ public class ArenaDataItem implements ClickableItem {
     setupInventory.closeInventory(event.getWhoClicked());
     switch(event.getClick()) {
       case LEFT:
-        new MessageBuilder("&aCheck tutorial video at").prefix().send(event.getWhoClicked());
+        new MessageBuilder("&a查看教程视频于").prefix().send(event.getWhoClicked());
         new MessageBuilder("&7" + setupInventory.getTutorialSite(), false).send(event.getWhoClicked());
         break;
       case RIGHT:
         setupInventory.open(SetupInventoryUtils.SetupInventoryStage.ARENA_EDITOR);
-        new MessageBuilder("&aarenas.yml file reloaded ;)").prefix().send(event.getWhoClicked());
+        new MessageBuilder("&aarenas.yml 文件已重新加载 ;)").prefix().send(event.getWhoClicked());
         break;
       default:
         break;

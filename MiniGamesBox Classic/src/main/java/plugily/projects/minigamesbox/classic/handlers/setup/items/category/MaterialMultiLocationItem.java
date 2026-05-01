@@ -77,7 +77,6 @@ public class MaterialMultiLocationItem implements CategoryItemHandler {
   public MaterialMultiLocationItem(SetupInventory setupInventory, ItemBuilder item, String name, String description, String keyName, Set<Material> checkMaterials, boolean removeBungee, int minimumValue, Consumer<InventoryClickEvent> clickConsumer, Consumer<PlugilyPlayerInteractEvent> interactConsumer) {
     this(setupInventory, item, name, description, keyName, checkMaterials, removeBungee, minimumValue, clickConsumer, interactConsumer, true, true, false);
   }
-
   public MaterialMultiLocationItem(SetupInventory setupInventory, ItemBuilder item, String name, String description, String keyName, Set<Material> checkMaterials, boolean removeBungee, int minimumValue, Consumer<InventoryClickEvent> clickConsumer, Consumer<PlugilyPlayerInteractEvent> interactConsumer, boolean leftClick, boolean rightClick, boolean physical) {
     this.setupInventory = setupInventory;
     this.name = name;
@@ -87,26 +86,26 @@ public class MaterialMultiLocationItem implements CategoryItemHandler {
     this.removeBungee = removeBungee;
     this.minimumValue = minimumValue;
     item
-        .name("&7Add &a" + name.toUpperCase() + " &7location")
-        .lore("&aInfo")
-        .lore("&7" + description)
-        .lore("&aStatus");
+            .name("&7添加 &a" + name.toUpperCase() + " &7位置")
+            .lore("&a信息")
+            .lore("&7" + description)
+            .lore("&a状态");
     if(removeBungee) {
       item
-          .lore("&cOption disabled with BungeeMode activated!")
-          .lore("&7Bungee mode is meant to be one arena per server")
-          .lore("&7If you wish to have multi arena, disable BungeeMode in config!")
-          .colorizeItem();
+              .lore("&c启用Bungee模式时此选项禁用！")
+              .lore("&7Bungee模式意味着每个服务器一个竞技场")
+              .lore("&7如果你希望拥有多竞技场，请在config中禁用Bungee模式！")
+              .colorizeItem();
 
     } else {
       item
-          .lore("&7" + getSetupInfo())
-          .lore("&aControls")
-          .lore("&eLEFT_CLICK \n&7-> Add the " + name.toUpperCase() + " location at the position you are *looking*")
-          .lore("&eSHIFT_LEFT_CLICK \n&7-> Get the setup item into your inventory")
-          .lore("&eRIGHT_CLICK \n&7-> Remove a " + name.toUpperCase() + " location near your position")
-          .lore("&eSHIFT_RIGHT_CLICK \n&7-> Remove all " + name.toUpperCase() + " locations")
-          .colorizeItem();
+              .lore("&7" + getSetupInfo())
+              .lore("&a控制")
+              .lore("&e左键点击 \n&7-> 在你*看向*的位置添加 " + name.toUpperCase() + " 位置")
+              .lore("&eShift+左键点击 \n&7-> 将设置物品放入你的物品栏")
+              .lore("&e右键点击 \n&7-> 移除你位置附近的 " + name.toUpperCase() + " 位置")
+              .lore("&eShift+右键点击 \n&7-> 移除所有 " + name.toUpperCase() + " 位置")
+              .colorizeItem();
 
     }
     this.item = item.build();
@@ -132,9 +131,9 @@ public class MaterialMultiLocationItem implements CategoryItemHandler {
     switch(event.getClick()) {
       case LEFT:
         Block targetBlock = event.getWhoClicked().getTargetBlock(null, 7);
-        setupInventory.getPlugin().getDebugger().debug("[TARGET BLOCK] " + targetBlock.getLocation() + targetBlock.getType() + checkMaterials.contains(targetBlock.getType()));
+        setupInventory.getPlugin().getDebugger().debug("[目标方块] " + targetBlock.getLocation() + targetBlock.getType() + checkMaterials.contains(targetBlock.getType()));
         if(!checkMaterial(targetBlock)) {
-          new MessageBuilder("&c&l✘ &cPlease only look at a location where already is a " + checkMaterials + " to add it as a " + name.toUpperCase() + "!").prefix().send(event.getWhoClicked());
+          new MessageBuilder("&c&l✘ &c请只看向已经放置了 " + checkMaterials + " 的位置来添加为 " + name.toUpperCase() + "！").prefix().send(event.getWhoClicked());
           return;
         }
         addLocation(event.getWhoClicked(), targetBlock.getLocation());
@@ -143,18 +142,18 @@ public class MaterialMultiLocationItem implements CategoryItemHandler {
         ItemStack itemStack =
             new ItemBuilder(item.getType())
                 .amount(1)
-                .name("&7Add &a" + name.toUpperCase() + " &7location")
-                .lore("&aInfo")
+                .name("&7添加 &a" + name.toUpperCase() + " &7位置")
+                .lore("&a信息")
                 .lore("&7" + description)
-                .lore("&aStatus")
-                .lore("&7Check in the arena editor!")
-                .lore("&aControls")
-                .lore("&eDROP \n&7-> Remove/Deactivate the item")
-                //.lore(physical ? "&ePHYSICAL \n&7-> Not supported" : "&cPHYSICAL - DEACTIVATED")
-                .lore(leftClick ? "&eLEFT_CLICK_AIR \n&7-> Not supported" : "&cLEFT_CLICK_AIR - DEACTIVATED")
-                .lore(leftClick ? "&eLEFT_CLICK_BLOCK \n&7-> Remove a location at the position you clicked" : "&cLEFT_CLICK_BLOCK - DEACTIVATED")
-                .lore(rightClick ? "&eRIGHT_CLICK_AIR \n&7-> Teleport through locations" : "&cRIGHT_CLICK_AIR - DEACTIVATED")
-                .lore(rightClick ? "&eRIGHT_CLICK_BLOCK \n&7-> Add the location at the position you clicked" : "&cRIGHT_CLICK_BLOCK - DEACTIVATED")
+                .lore("&a状态")
+                .lore("&7在竞技场编辑器中查看！")
+                .lore("&a控制")
+                .lore("&e丢弃 \n&7-> 移除/停用物品")
+                //.lore(physical ? "&e物理交互 \n&7-> 不支持" : "&c物理交互 - 已停用")
+                .lore(leftClick ? "&e左键点击空气 \n&7-> 不支持" : "&c左键点击空气 - 已停用")
+                .lore(leftClick ? "&e左键点击方块 \n&7-> 移除点击位置的位置" : "&c左键点击方块 - 已停用")
+                .lore(rightClick ? "&e右键点击空气 \n&7-> 在位置间传送" : "&c右键点击空气 - 已停用")
+                .lore(rightClick ? "&e右键点击方块 \n&7-> 添加点击位置的位置" : "&c右键点击方块 - 已停用")
                 .colorizeItem()
                 .build();
         HandlerItem handlerItem = new HandlerItem(itemStack);
@@ -163,24 +162,24 @@ public class MaterialMultiLocationItem implements CategoryItemHandler {
           dropEvent.getItemDrop().remove();
           dropEvent.getPlayer().updateInventory();
           handlerItem.remove();
-          new MessageBuilder("&aRemoved/&aDeactivated the " + name.toUpperCase() + " Location item!").prefix().send(dropEvent.getPlayer());
+          new MessageBuilder("&a已移除/&a已停用 " + name.toUpperCase() + " 位置物品！").prefix().send(dropEvent.getPlayer());
         });
         handlerItem.addConsumeHandler(consumeEvent -> consumeEvent.setCancelled(true));
         handlerItem.addInteractHandler(interactEvent -> {
           interactEvent.setCancelled(true);
           if(interactEvent.getClickedBlock() == null && (interactEvent.getAction() != Action.RIGHT_CLICK_AIR)) {
-            new MessageBuilder("&c&l✘ &cYou can't use a location that is at your player location, please select the " + checkMaterials + "!").prefix().send(interactEvent.getPlayer());
+            new MessageBuilder("&c&l✘ &c你不能使用玩家所在位置的位置，请选择 " + checkMaterials + "！").prefix().send(interactEvent.getPlayer());
             return;
           }
 
           switch(interactEvent.getAction()) {
             case PHYSICAL:
             case LEFT_CLICK_AIR:
-              new MessageBuilder("&c&l✘ &cYou can't use a location that is at your player location, please select the " + checkMaterials + "!").prefix().send(interactEvent.getPlayer());
+              new MessageBuilder("&c&l✘ &c你不能使用玩家所在位置的位置，请选择 " + checkMaterials + "！").prefix().send(interactEvent.getPlayer());
               break;
             case LEFT_CLICK_BLOCK:
               if(!checkMaterial(interactEvent.getClickedBlock().getLocation().getBlock())) {
-                new MessageBuilder("&c&l✘ &cPlease only use location where already is a " + checkMaterials + " to remove it as a " + name.toUpperCase() + "!").prefix().send(interactEvent.getPlayer());
+                new MessageBuilder("&c&l✘ &c请只使用已经放置了 " + checkMaterials + " 的位置来移除 " + name.toUpperCase() + "！").prefix().send(interactEvent.getPlayer());
                 return;
               }
 
@@ -189,13 +188,13 @@ public class MaterialMultiLocationItem implements CategoryItemHandler {
             case RIGHT_CLICK_BLOCK:
               Location location = interactEvent.getClickedBlock().getLocation();
               if(!checkMaterial(location.getBlock())) {
-                new MessageBuilder("&c&l✘ &cPlease only use location where already is a " + checkMaterials + " to add it as a " + name.toUpperCase() + "!").prefix().send(interactEvent.getPlayer());
+                new MessageBuilder("&c&l✘ &c请只使用已经放置了 " + checkMaterials + " 的位置来添加为 " + name.toUpperCase() + "！").prefix().send(interactEvent.getPlayer());
                 return;
               }
 
               if(location.distance(interactEvent.getClickedBlock().getWorld().getSpawnLocation()) <= Bukkit.getServer().getSpawnRadius()) {
-                new MessageBuilder("&c&l✖ &cWarning | Server spawn protection is set to &6" + Bukkit.getServer().getSpawnRadius()
-                    + " &cand location you want to place is in radius of this protection! &c&lNon opped players won't be able to interact with this " + checkMaterials + " and can't join the game! Reduce the spawn radius (server.properties) or change your location!").prefix().send(interactEvent.getPlayer());
+                new MessageBuilder("&c&l✖ &c警告 | 服务器出生点保护半径设置为 &6" + Bukkit.getServer().getSpawnRadius()
+                        + " &c并且你想要放置的位置在此保护半径内！&c&l没有OP权限的玩家将无法与此 " + checkMaterials + " 交互也无法加入游戏！请减小出生点保护半径（server.properties）或更改你的位置！").prefix().send(interactEvent.getPlayer());
               }
               addLocation(interactEvent.getPlayer(), location.getBlock().getLocation());
               break;
@@ -231,10 +230,10 @@ public class MaterialMultiLocationItem implements CategoryItemHandler {
     if(!getLocationsList().isEmpty()) {
       Location location = getLocationsList().get(setupInventory.getPlugin().getRandom().nextInt(getLocationsList().size()));
       VersionUtils.teleport(player, location);
-      new MessageBuilder("&aTeleported to " + name.toUpperCase() + " Location of arena " + setupInventory.getArenaKey() + " (" + location + ")").prefix().send(player);
+      new MessageBuilder("&a已传送到竞技场 " + setupInventory.getArenaKey() + " 的 " + name.toUpperCase() + " 位置（" + location + "）").prefix().send(player);
       return;
     }
-    new MessageBuilder("&c" + name.toUpperCase() + " Location not found of arena " + setupInventory.getArenaKey()).prefix().send(player);
+    new MessageBuilder("&c未找到竞技场 " + setupInventory.getArenaKey() + " 的 " + name.toUpperCase() + " 位置").prefix().send(player);
   }
 
   private void addLocation(HumanEntity player, Location location) {
@@ -247,10 +246,10 @@ public class MaterialMultiLocationItem implements CategoryItemHandler {
       ConfigUtils.saveConfig(setupInventory.getPlugin(), config, "arenas");
     }
 
-    String progress = locs.size() >= minimumValue ? "&e✔ Completed | " : "&c✘ Not completed | ";
-    new MessageBuilder(progress + "&a" + name.toUpperCase() + " location added! &8(&7" + locs.size() + "/" + minimumValue + "&8)").prefix().send(player);
+    String progress = locs.size() >= minimumValue ? "&e✔ 完成 | " : "&c✘ 未完成 | ";
+    new MessageBuilder(progress + "&a" + name.toUpperCase() + " 位置已添加！ &8(&7" + locs.size() + "/" + minimumValue + "&8)").prefix().send(player);
     if(locs.size() == minimumValue) {
-      new MessageBuilder("&eInfo | &aYou can add more than " + minimumValue + " " + name.toUpperCase() + " location! " + minimumValue + " is just a minimum!").prefix().send(player);
+      new MessageBuilder("&e信息 | &a你可以添加超过 " + minimumValue + " 个 " + name.toUpperCase() + " 位置！" + minimumValue + " 只是最低要求！").prefix().send(player);
     }
     if (keyName.contains("sign")) {
       setupInventory.getPlugin().getSignManager().loadSigns();
@@ -272,14 +271,14 @@ public class MaterialMultiLocationItem implements CategoryItemHandler {
           }
           config.set("instances." + setupInventory.getArenaKey() + "." + keyName, locs);
           ConfigUtils.saveConfig(setupInventory.getPlugin(), config, "arenas");
-          //considerable to add arena method to remove location
-          new MessageBuilder("&e✔ Removed | &a" + name.toUpperCase() + " location for arena " + setupInventory.getArenaKey() + "! (" + location + ")").prefix().send(player);
-          new MessageBuilder("You can now remove the " + checkMaterials.toString() + "!").prefix().send(player);
+          // 考虑添加竞技场方法来移除位置
+          new MessageBuilder("&e✔ 已移除 | &a竞技场 " + setupInventory.getArenaKey() + " 的 " + name.toUpperCase() + " 位置！（" + location + "）").prefix().send(player);
+          new MessageBuilder("你现在可以移除 " + checkMaterials.toString() + " 了！").prefix().send(player);
           return;
         }
       }
     }
-    new MessageBuilder("&cAround your position no " + name.toUpperCase() + " Location found!").prefix().send(player);
+    new MessageBuilder("&c在你的位置附近未找到 " + name.toUpperCase() + " 位置！").prefix().send(player);
   }
 
   @Nullable

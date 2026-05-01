@@ -92,6 +92,9 @@ public class PluginArenaManager {
           }
         }
         additionalSpectatorSettings(player, arena);
+        if(plugin.getProxyRoomsManager() != null) {
+          plugin.getProxyRoomsManager().publishArenaSnapshot(arena);
+        }
         plugin.getDebugger().debug("[{0}] Final join attempt as spectator for {1} took {2}ms", arena.getId(), player.getName(), System.currentTimeMillis() - start);
       });
       return;
@@ -116,6 +119,9 @@ public class PluginArenaManager {
       }
 
       plugin.getSignManager().updateSigns();
+      if(plugin.getProxyRoomsManager() != null) {
+        plugin.getProxyRoomsManager().publishArenaSnapshot(arena);
+      }
       plugin.getDebugger().debug("[{0}] Final join attempt as player for {1} took {2}ms", arena.getId(), player.getName(), System.currentTimeMillis() - start);
     });
   }
@@ -253,6 +259,9 @@ public class PluginArenaManager {
       new MessageBuilder(MessageBuilder.ActionType.LEAVE).arena(arena).player(player).sendPlayer();
     }
     plugin.getSignManager().updateSigns();
+    if(plugin.getProxyRoomsManager() != null) {
+      plugin.getProxyRoomsManager().publishArenaSnapshot(arena);
+    }
     plugin.getDebugger().debug("[{0}] Final leave attempt for {1} took {2}ms", arena.getId(), player.getName(), System.currentTimeMillis() - start);
   }
 

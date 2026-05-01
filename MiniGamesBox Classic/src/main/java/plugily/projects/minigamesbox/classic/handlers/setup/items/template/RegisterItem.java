@@ -62,29 +62,29 @@ public class RegisterItem implements ClickableItem {
     switch(registerStatus) {
       case ARENA_READY:
         item = new ItemBuilder(XMaterial.POTATO.parseMaterial())
-            .name(new MessageBuilder("&a&lArena Setup finished - Congratulation").build())
-            .lore(ChatColor.GRAY + "This arena is already registered!")
-            .lore(ChatColor.GRAY + "You can play on this arena now!")
-            .lore("&aControls")
-            .lore("&eCLICK \n&7-> Reload arena");
+            .name(new MessageBuilder("&a&l竞技场设置完成 - 恭喜").build())
+            .lore(ChatColor.GRAY + "此竞技场已注册！")
+            .lore(ChatColor.GRAY + "你现在可以在此竞技场上游玩了！")
+            .lore("&a控制")
+            .lore("&e点击 \n&7-> 重新加载竞技场");
         break;
       case ARENA_REGISTER:
         item = new ItemBuilder(XMaterial.FIREWORK_ROCKET.parseMaterial())
-            .name(new MessageBuilder("&e&lRegister Arena - Finish Setup").build())
-            .lore(ChatColor.GRAY + "Click this when you're done with configuration.")
-            .lore(ChatColor.GRAY + "It will validate and register your arena.")
-            .lore(ChatColor.GRAY + "Good job, you went through whole setup!")
-            .lore("&aControls")
-            .lore("&eCLICK \n&7-> Register arena")
+            .name(new MessageBuilder("&e&l注册竞技场 - 完成设置").build())
+            .lore(ChatColor.GRAY + "当你完成配置后点击此项。")
+            .lore(ChatColor.GRAY + "它将验证并注册你的竞技场。")
+            .lore(ChatColor.GRAY + "做得好，你完成了整个设置过程！")
+            .lore("&a控制")
+            .lore("&e点击 \n&7-> 注册竞技场")
             .enchantment(XEnchantment.UNBREAKING.get());
         break;
       case ARENA_SETUP:
       default:
         item = new ItemBuilder(XMaterial.BARRIER.parseMaterial())
-            .name(new MessageBuilder("&c&lArena Setup not finished").build())
-            .lore(ChatColor.GRAY + "Go ahead with the setup!")
-            .lore(ChatColor.GRAY + "Feel free to watch the tutorials that you can find on the gui!")
-            .lore(ChatColor.GRAY + "Support: discord.plugily.xyz - #general-questions");
+            .name(new MessageBuilder("&c&l竞技场设置未完成").build())
+            .lore(ChatColor.GRAY + "继续进行设置！")
+            .lore(ChatColor.GRAY + "请随意观看你在 GUI 上找到的教程！")
+            .lore(ChatColor.GRAY + "支持：discord.plugily.xyz - #general-questions");
 
         break;
     }

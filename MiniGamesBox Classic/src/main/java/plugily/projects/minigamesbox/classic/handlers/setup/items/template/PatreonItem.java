@@ -45,13 +45,13 @@ public class PatreonItem implements ClickableItem {
   public ItemStack getItem() {
     ItemBuilder item = new ItemBuilder(XMaterial.GOLD_NUGGET.parseMaterial());
     item
-        .name("&6&l► Support Development ◄")
-        .lore(ChatColor.GRAY + "We are a open-source organisation and")
-        .lore(ChatColor.GOLD + "need your attention and mindset of helping each other out!")
-        .lore(ChatColor.GOLD + "While you can get with our patreon subscription the addon you can also")
-        .lore(ChatColor.GRAY + "support us by donating on other platforms such as paypal!")
-        .lore("&aControls")
-        .lore("&eCLICK \n&7-> Link for donation options")
+        .name("&6&l► 支持开发 ◄")
+        .lore(ChatColor.GRAY + "我们是一个开源组织，")
+        .lore(ChatColor.GOLD + "需要你的关注和互相帮助的精神！")
+        .lore(ChatColor.GOLD + "虽然你可以通过 Patreon 订阅获得附加插件，")
+        .lore(ChatColor.GRAY + "你也可以通过其他平台如 PayPal 捐赠来支持我们！")
+        .lore("&a控制")
+        .lore("&e点击 \n&7-> 捐赠选项链接")
         .enchantment(XEnchantment.UNBREAKING.getEnchant())
         .colorizeItem();
     return item.build();
@@ -60,7 +60,7 @@ public class PatreonItem implements ClickableItem {
   @Override
   public void onClick(InventoryClickEvent event) {
     setupInventory.closeInventory(event.getWhoClicked());
-    new MessageBuilder("&6Check our donation possibilities at").prefix().send(event.getWhoClicked());
+    new MessageBuilder("&6查看我们的捐赠方式于").prefix().send(event.getWhoClicked());
     new MessageBuilder("&6 https://wiki.plugily.xyz/donate", false).send(event.getWhoClicked());
   }
 }

@@ -64,16 +64,16 @@ public class MultiLocationSelectorItem implements CategoryItemHandler {
     this.keyName = keyName;
     this.minimumValue = minimumValue;
     item
-        .name("&7Add &a" + name.toUpperCase() + " &7location selection")
-        .lore("&aInfo")
+        .name("&7添加 &a" + name.toUpperCase() + " &7位置选择")
+        .lore("&a信息")
         .lore("&7" + description)
-        .lore("&aStatus")
+        .lore("&a状态")
         .lore("&7" + getSetupInfo())
-        .lore("&aControls")
-        .lore("&eLEFT_CLICK \n&7-> Add the location you selected with the selector")
-        .lore("&eSHIFT_LEFT_CLICK \n&7-> Get the selector item into your inventory")
-        .lore("&eRIGHT_CLICK \n&7-> Remove a location near your position")
-        .lore("&eSHIFT_RIGHT_CLICK \n&7-> Remove all locations")
+        .lore("&a控制")
+        .lore("&e左键点击 \n&7-> 添加你用选择器选择的位置")
+        .lore("&eShift+左键点击 \n&7-> 将选择器物品放入你的物品栏")
+        .lore("&e右键点击 \n&7-> 移除你位置附近的位置")
+        .lore("&eShift+右键点击 \n&7-> 移除所有位置")
         .colorizeItem();
     this.item = item.build();
     this.clickConsumer = clickConsumer;
@@ -114,7 +114,7 @@ public class MultiLocationSelectorItem implements CategoryItemHandler {
   private void addLocation(HumanEntity player) {
     CuboidSelector.Selection selection = setupInventory.getPlugin().getCuboidSelector().getSelection((Player) player);
     if(selection == null || selection.getFirstPos() == null || selection.getSecondPos() == null) {
-      new MessageBuilder("&cPlease select both corners before adding an " + name.toUpperCase() + " location!").prefix().send(player);
+      new MessageBuilder("&c请在添加 " + name.toUpperCase() + " 位置前选择两个角点！").prefix().send(player);
       return;
     }
 
@@ -122,16 +122,16 @@ public class MultiLocationSelectorItem implements CategoryItemHandler {
     int value = (configurationSection != null ? configurationSection.getKeys(false).size() : 0) + 1;
     LocationSerializer.saveLoc(setupInventory.getPlugin(), setupInventory.getConfig(), "arenas", "instances." + setupInventory.getArenaKey() + "." + keyName + "." + value + ".1", selection.getFirstPos());
     LocationSerializer.saveLoc(setupInventory.getPlugin(), setupInventory.getConfig(), "arenas", "instances." + setupInventory.getArenaKey() + "." + keyName + "." + value + ".2", selection.getSecondPos());
-    String progress = value >= minimumValue ? "&e✔ Completed | " : "&c✘ Not completed | ";
-    new MessageBuilder(progress + "&a" + name.toUpperCase() + " spawn added! &8(&7" + value + "/" + minimumValue + "&8)").prefix().send(player);
+    String progress = value >= minimumValue ? "&e✔ 完成 | " : "&c✘ 未完成 | ";
+    new MessageBuilder(progress + "&a" + name.toUpperCase() + " 出生点已添加！ &8(&7" + value + "/" + minimumValue + "&8)").prefix().send(player);
     if(value == minimumValue) {
-      new MessageBuilder("&eInfo | &aYou can add more than " + minimumValue + " " + name.toUpperCase() + " spawns! " + minimumValue + " is just a minimum!").prefix().send(player);
+      new MessageBuilder("&e信息 | &a你可以添加超过 " + minimumValue + " 个 " + name.toUpperCase() + " 出生点！" + minimumValue + " 只是最低要求！").prefix().send(player);
     }
   }
 
   private void removeLocation(HumanEntity player, boolean deleteAll) {
     if(deleteAll) {
-      new MessageBuilder("&e✔ Removed | &a" + name.toUpperCase() + " location for arena " + setupInventory.getArenaKey() + "! (All locations)").prefix().send(player);
+      new MessageBuilder("&e✔ 已移除 | &a竞技场 " + setupInventory.getArenaKey() + " 的 " + name.toUpperCase() + " 位置！（所有位置）").prefix().send(player);
       setupInventory.getConfig().set("instances." + setupInventory.getArenaKey() + "." + keyName, null);
       return;
     }
@@ -145,13 +145,13 @@ public class MultiLocationSelectorItem implements CategoryItemHandler {
         double distance2 = player.getLocation().distanceSquared(location2);
         if(distance1 <= 2 || distance2 <= 2) {
           setupInventory.setConfig(keyName + "." + key, null);
-          //considerable to add arena method to remove location
-          new MessageBuilder("&e✔ Removed | &a" + name.toUpperCase() + " location for arena " + setupInventory.getArenaKey() + "! (" + location1 + ")").prefix().send(player);
+          // 考虑添加竞技场方法来移除位置
+          new MessageBuilder("&e✔ 已移除 | &a竞技场 " + setupInventory.getArenaKey() + " 的 " + name.toUpperCase() + " 位置！（" + location1 + "）").prefix().send(player);
           return;
         }
       }
     }
-    new MessageBuilder("&cAround your position no " + name.toUpperCase() + " Location found!").prefix().send(player);
+    new MessageBuilder("&c在你的位置附近未找到 " + name.toUpperCase() + " 位置！").prefix().send(player);
   }
 
   @Nullable

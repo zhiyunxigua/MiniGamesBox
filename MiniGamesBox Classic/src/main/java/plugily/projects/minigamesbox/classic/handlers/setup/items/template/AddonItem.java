@@ -44,13 +44,13 @@ public class AddonItem implements ClickableItem {
   public ItemStack getItem() {
     ItemBuilder item = new ItemBuilder(XMaterial.GOLD_INGOT.parseMaterial());
     item
-        .name("&6&l► Patreon Addon ◄ &8(AD)")
-        .lore(ChatColor.GRAY + "Enhance gameplay with paid addon!")
-        .lore(ChatColor.GRAY + "Support the development!")
-        .lore(ChatColor.GOLD + "Selection of features of the addon:")
-        .lore(ChatColor.GOLD + "Custom Kits, Custom Achievements, Custom ranks, Replay Ability and more!")
-        .lore("&aControls")
-        .lore("&eCLICK \n&7-> Link for patreon program")
+        .name("&6&l► Patreon 附加插件 ◄ &8(广告)")
+        .lore(ChatColor.GRAY + "通过付费附加插件增强游戏体验！")
+        .lore(ChatColor.GRAY + "支持开发！")
+        .lore(ChatColor.GOLD + "附加插件功能选择：")
+        .lore(ChatColor.GOLD + "自定义工具包、自定义成就、自定义称号、回放功能等！")
+        .lore("&a控制")
+        .lore("&e点击 \n&7-> Patreon 计划链接")
         .enchantment(XEnchantment.UNBREAKING.getEnchant())
         .colorizeItem();
     return item.build();
@@ -59,7 +59,7 @@ public class AddonItem implements ClickableItem {
   @Override
   public void onClick(InventoryClickEvent event) {
     setupInventory.closeInventory(event.getWhoClicked());
-    new MessageBuilder("&6Check patron program at").prefix().send(event.getWhoClicked());
+    new MessageBuilder("&6查看 Patreon 计划于").prefix().send(event.getWhoClicked());
     new MessageBuilder("&6 https://wiki.plugily.xyz/" + setupInventory.getPlugin().getPluginNamePrefixLong().toLowerCase() + "/addon/overview", false).send(event.getWhoClicked());
   }
 }

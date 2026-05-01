@@ -43,15 +43,15 @@ public class TranslateItem implements ClickableItem {
   public ItemStack getItem() {
     ItemBuilder item = new ItemBuilder(XMaterial.MELON_SLICE.parseMaterial());
     item
-        .name("&b&l► Translate our plugins ◄ &8")
-        .lore(ChatColor.GRAY + "Help your country by translating")
-        .lore(ChatColor.GRAY + "the plugin for all!")
-        .lore(ChatColor.AQUA + "We use PoEditor for our language translations")
-        .lore(ChatColor.AQUA + "You can just edit your language.yml or be part")
-        .lore(ChatColor.AQUA + "of translator pool of plugily by")
-        .lore(ChatColor.AQUA + "translating the plugin on PoEditor")
-        .lore("&aControls")
-        .lore("&eCLICK \n&7-> Translation program link")
+        .name("&b&l► 翻译我们的插件 ◄ &8")
+        .lore(ChatColor.GRAY + "通过翻译帮助你的国家")
+        .lore(ChatColor.GRAY + "让所有人都能使用这个插件！")
+        .lore(ChatColor.AQUA + "我们使用 PoEditor 进行语言翻译")
+        .lore(ChatColor.AQUA + "你可以直接编辑你的 language.yml 或成为")
+        .lore(ChatColor.AQUA + "Plugily 翻译团队的一员")
+        .lore(ChatColor.AQUA + "在 PoEditor 上翻译插件")
+        .lore("&a控制")
+        .lore("&e点击 \n&7-> 翻译计划链接")
         .colorizeItem();
     return item.build();
   }
@@ -59,7 +59,7 @@ public class TranslateItem implements ClickableItem {
   @Override
   public void onClick(InventoryClickEvent event) {
     setupInventory.closeInventory(event.getWhoClicked());
-    new MessageBuilder("&bCheck translation program at").prefix().send(event.getWhoClicked());
+    new MessageBuilder("&b查看翻译计划于").prefix().send(event.getWhoClicked());
     new MessageBuilder("&b https://wiki.plugily.xyz/translate#" + setupInventory.getPlugin().getPluginNamePrefixLong().toLowerCase(), false).send(event.getWhoClicked());
   }
 }

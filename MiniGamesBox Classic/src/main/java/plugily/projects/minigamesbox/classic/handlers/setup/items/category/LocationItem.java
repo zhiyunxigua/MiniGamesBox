@@ -70,20 +70,20 @@ public class LocationItem implements CategoryItemHandler {
     this.description = description;
     this.keyName = keyName;
     item
-        .name("&7Set &a" + name.toUpperCase() + " &7location")
-        .lore("&aInfo")
+        .name("&7设置 &a" + name.toUpperCase() + " &7位置")
+        .lore("&a信息")
         .lore("&7" + description)
-        .lore("&aStatus")
+        .lore("&a状态")
         .lore("&7" + getSetupInfo())
-        .lore("&aControls")
-        .lore("&eLEFT_CLICK")
-        .lore("&7-> Set the location at the position you are standing")
-        .lore("&eSHIFT_LEFT_CLICK")
-        .lore("&7-> Get the setup item into your inventory")
-        .lore("&eRIGHT_CLICK")
-        .lore("&7-> Teleport to current location")
-        .lore("&eSHIFT_RIGHT_CLICK")
-        .lore("&7-> Remove the location near your position")
+        .lore("&a控制")
+        .lore("&e左键点击")
+        .lore("&7-> 在你所在的位置设置位置")
+        .lore("&eShift + 左键点击")
+        .lore("&7-> 将设置物品放入你的物品栏")
+        .lore("&e右键点击")
+        .lore("&7-> 传送到当前位置")
+        .lore("&eShift + 右键点击")
+        .lore("&7-> 移除你附近的位置")
         .colorizeItem();
     this.item = item.build();
     this.clickConsumer = clickConsumer;
@@ -109,18 +109,18 @@ public class LocationItem implements CategoryItemHandler {
         ItemStack itemStack =
             new ItemBuilder(item.getType())
                 .amount(1)
-                .name("&7Set &a" + name.toUpperCase() + " &7location")
-                .lore("&aInfo")
+                .name("&7设置 &a" + name.toUpperCase() + " &7位置")
+                .lore("&a信息")
                 .lore("&7" + description)
-                .lore("&aStatus")
-                .lore("&7Check in the arena editor!")
-                .lore("&aControls")
-                .lore("&eDROP &7- Remove/Deactivate the item")
+                .lore("&a状态")
+                .lore("&7在竞技场编辑器中检查！")
+                .lore("&a控制")
+                .lore("&e丢下 &7- 移除/停用该物品")
                 //.lore(physical ? "&ePHYSICAL \n&7-> Set a location on physical event (e.g. pressure plate)" : "&cPHYSICAL - DEACTIVATED")
-                .lore(leftClick ? "&eLEFT_CLICK_AIR \n&7-> Set the location at the position you are standing" : "&cLEFT_CLICK_AIR - DEACTIVATED")
-                .lore(leftClick ? "&eLEFT_CLICK_BLOCK \n&7-> Set the location at the position you clicked" : "&cLEFT_CLICK_BLOCK - DEACTIVATED")
-                .lore(rightClick ? "&eRIGHT_CLICK_AIR \n&7-> Teleport to current location" : "&cRIGHT_CLICK_AIR - DEACTIVATED")
-                .lore(rightClick ? "&eRIGHT_CLICK_BLOCK \n&7-> Remove the location near your position" : "&cRIGHT_CLICK_BLOCK - DEACTIVATED")
+                .lore(leftClick ? "&e左键空气 \n&7-> 将位置设置在您当前站立的位置" : "&c左键空气 - 已停用")
+                .lore(leftClick ? "&e左键方块 \n&7-> 将位置设置到你点击的位置" : "&c左键方块 - 已停用")
+                .lore(rightClick ? "&e右键空气 \n&7-> 传送到当前位置" : "&c右键空气 - 已停用")
+                .lore(rightClick ? "&e右键方块 \n&7-> 移除您位置附近的地点" : "&c右键方块 - 已停用")
                 .colorizeItem()
                 .build();
         HandlerItem handlerItem = new HandlerItem(itemStack);
@@ -129,7 +129,7 @@ public class LocationItem implements CategoryItemHandler {
           dropEvent.getItemDrop().remove();
           dropEvent.getPlayer().updateInventory();
           handlerItem.remove();
-          new MessageBuilder("&aRemoved/&aDeactivated the " + name.toUpperCase() + " Location item!").prefix().send(dropEvent.getPlayer());
+          new MessageBuilder("&a已移除/&a已停用" + name.toUpperCase() + "位置项!").prefix().send(dropEvent.getPlayer());
         });
         handlerItem.addConsumeHandler(consumeEvent -> consumeEvent.setCancelled(true));
         handlerItem.addInteractHandler(interactEvent -> {
@@ -138,7 +138,7 @@ public class LocationItem implements CategoryItemHandler {
             case PHYSICAL:
             case LEFT_CLICK_AIR:
               addLocation(interactEvent.getPlayer(), interactEvent.getPlayer().getLocation());
-              new MessageBuilder("&cPlease keep in mind to use blocks instead of player location for precise coordinates!").prefix().send(interactEvent.getPlayer());
+              new MessageBuilder("&c请记住使用方块而不是玩家位置来获取精确坐标!").prefix().send(interactEvent.getPlayer());
               break;
             case RIGHT_CLICK_BLOCK:
               removeLocation(interactEvent.getPlayer());
@@ -179,16 +179,16 @@ public class LocationItem implements CategoryItemHandler {
       Location location = LocationSerializer.getLocation(getRawLocation());
       if(location != null) {
         VersionUtils.teleport(player, location);
-        new MessageBuilder("&aTeleported to " + name.toUpperCase() + " Location of arena " + setupInventory.getArenaKey()).prefix().send(player);
+        new MessageBuilder("&a传送到" + name.toUpperCase() + " 位置在竞技场 " + setupInventory.getArenaKey()).prefix().send(player);
         return;
       }
     }
-    new MessageBuilder("&c" + name.toUpperCase() + " Location not found of arena " + setupInventory.getArenaKey()).prefix().send(player);
+    new MessageBuilder("&c" + name.toUpperCase() + " 未找到位置在竞技场 " + setupInventory.getArenaKey()).prefix().send(player);
   }
 
   private void addLocation(HumanEntity player, Location location) {
     LocationSerializer.saveLoc(setupInventory.getPlugin(), setupInventory.getConfig(), "arenas", "instances." + setupInventory.getArenaKey() + "." + keyName, location);
-    new MessageBuilder("&e✔ Completed | &a" + name.toUpperCase() + " location for arena " + setupInventory.getArenaKey() + " set at your location!").prefix().send(player);
+    new MessageBuilder("&e✔ 已完成 | &a" + name.toUpperCase() + " 位置在竞技场 " + setupInventory.getArenaKey() + " 在你的位置设定!").prefix().send(player);
   }
 
   private void removeLocation(HumanEntity player) {
@@ -199,12 +199,12 @@ public class LocationItem implements CategoryItemHandler {
         if(distance <= 3) {
           setupInventory.setConfig(keyName, null);
           //considerable to add arena method to remove location
-          new MessageBuilder("&e✔ Removed | &a" + name.toUpperCase() + " location for arena " + setupInventory.getArenaKey() + "!").prefix().send(player);
+          new MessageBuilder("&e✔ 已移除 | &a" + name.toUpperCase() + " 位置在竞技场 " + setupInventory.getArenaKey() + "!").prefix().send(player);
           return;
         }
       }
     }
-    new MessageBuilder("&cAround your position no " + name.toUpperCase() + " Location found!").prefix().send(player);
+    new MessageBuilder("&c你的位置周围没有 " + name.toUpperCase() + "找到竞技场!").prefix().send(player);
   }
 
   @Nullable

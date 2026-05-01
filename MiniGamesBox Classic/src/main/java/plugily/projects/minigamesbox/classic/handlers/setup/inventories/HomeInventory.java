@@ -64,27 +64,27 @@ public class HomeInventory extends NormalFastInv implements InventoryHandler {
   @Override
   public void injectItems() {
     setItem(19, ClickableItem.of(new ItemBuilder(XMaterial.REDSTONE_BLOCK.parseItem())
-        .name(new MessageBuilder("&cArenas List").build())
-        .lore(ChatColor.GRAY + "Edit, delete or copy arenas")
+        .name(new MessageBuilder("&c竞技场列表").build())
+        .lore(ChatColor.GRAY + "编辑、删除或者复制竞技场")
         .build(), event -> setupInventory.open(SetupInventoryUtils.SetupInventoryStage.ARENA_LIST)
     ));
 
     setItem(22, ClickableItem.of(new ItemBuilder(XMaterial.OAK_SIGN.parseItem())
-            .name(new MessageBuilder("&cCreate Arena").build())
-            .lore(ChatColor.GRAY + "Create a fully new arena")
+            .name(new MessageBuilder("&c创建竞技场").build())
+            .lore(ChatColor.GRAY + "创建一个全新的竞技场")
             .build(), event -> {
           setupInventory.closeInventory(event.getWhoClicked());
           new SimpleConversationBuilder(setupInventory.getPlugin()).withPrompt(new StringPrompt() {
             @Override
             public @NotNull String getPromptText(ConversationContext context) {
-              return new MessageBuilder("&ePlease type in chat arena name to create new arena! You can use color codes. &cType in 'CANCEL' to cancel!").prefix().build();
+              return new MessageBuilder("&e请在聊天中输入竞技场名称以创建新竞技场！你可以使用颜色代码。&c输入 'CANCEL' 来取消！").prefix().build();
             }
 
             @Override
             public Prompt acceptInput(ConversationContext context, String input) {
               String name = new MessageBuilder(input, false).build();
               if(name.contains(" ")) {
-                context.getForWhom().sendRawMessage(new MessageBuilder("&cThe arena key needs to be without spaces. You can give it a nice map name later ;)").prefix().build());
+                context.getForWhom().sendRawMessage(new MessageBuilder("&c竞技场键不能有空格。你之后可以给它起一个漂亮的地图名称 ;)").prefix().build());
                 return Prompt.END_OF_CONVERSATION;
               }
               setupInventory.createInstanceInConfig(name, (Player) context.getForWhom());
@@ -101,12 +101,12 @@ public class HomeInventory extends NormalFastInv implements InventoryHandler {
 
 
     setItem(25, ClickableItem.of(new ItemBuilder(XMaterial.SLIME_BLOCK.parseItem())
-            .name(new MessageBuilder("&cContinue Arena Setup").build())
-            .lore(ChatColor.GRAY + "Continue a previous started arena editor")
-            .lore(ChatColor.RED + "Arena: " + setupInventory.getArenaKey())
+            .name(new MessageBuilder("&c继续竞技场设置").build())
+            .lore(ChatColor.GRAY + "继续之前开始的竞技场编辑器")
+            .lore(ChatColor.RED + "竞技场: " + setupInventory.getArenaKey())
             .build(), event -> {
           if(setupInventory.getArenaKey() == null) {
-            new MessageBuilder("You need to create or edit a arena first").prefix().player((Player) event.getWhoClicked()).sendPlayer();
+            new MessageBuilder("你需要先创建或编辑一个竞技场").prefix().player((Player) event.getWhoClicked()).sendPlayer();
             return;
           }
           setupInventory.open(SetupInventoryUtils.SetupInventoryStage.ARENA_EDITOR);
@@ -115,29 +115,27 @@ public class HomeInventory extends NormalFastInv implements InventoryHandler {
 
 
     setItem(39, ClickableItem.of(new ItemBuilder(XMaterial.GOLD_INGOT.parseItem())
-        .name(new MessageBuilder("&6&l► Patreon Addon ◄ &8(AD)").build())
-        .lore(ChatColor.GRAY + "Enhance gameplay with paid addon!")
-        .lore(ChatColor.GOLD + "Selection of features of the addon:")
-        .lore(ChatColor.GOLD + "Custom Kits, Achievements, Replay Ability")
-        .lore(ChatColor.GRAY + "Click to get link for patron program!")
+        .name(new MessageBuilder("&6&l► Patreon 插件 ◄ &8(AD)").build())
+        .lore(new MessageBuilder("&7通过付费插件增强游戏体验！").build())
+        .lore(new MessageBuilder("&6插件功能选择：").build())
+        .lore(new MessageBuilder("&6自定义工具包、成就、回放功能").build())
+        .lore(new MessageBuilder("&7点击获取 Patreon 计划链接！").build())
         .build(), event -> {
       setupInventory.closeInventory(event.getWhoClicked());
-      new MessageBuilder("&6Check patron program at").prefix().send(event.getWhoClicked());
+      new MessageBuilder("&6查看会员计划于").prefix().send(event.getWhoClicked());
       new MessageBuilder("&6 https://wiki.plugily.xyz/" + setupInventory.getPlugin().getPluginNamePrefixLong().toLowerCase() + "/addon/overview", false).send(event.getWhoClicked());
     }));
-
     setItem(41, ClickableItem.of(new ItemBuilder(XMaterial.MAP.parseItem())
-        .name(new MessageBuilder("&e&l► View Setup Video ◄").build())
-        .lore(ChatColor.GRAY + "Having problems with setup")
-        .lore(ChatColor.GRAY + "or wanna know some")
-        .lore(ChatColor.YELLOW + "useful tips? ")
-        .lore(ChatColor.YELLOW + "Click to get video link!")
+        .name(new MessageBuilder("&e&l► 查看设置视频 ◄").build())
+        .lore(ChatColor.GRAY + "设置遇到问题吗")
+        .lore(ChatColor.GRAY + "或者想了解一些")
+        .lore(ChatColor.YELLOW + "有用的提示？")
+        .lore(ChatColor.YELLOW + "点击获取视频链接！")
         .build(), event -> {
       setupInventory.closeInventory(event.getWhoClicked());
-      new MessageBuilder("&6Check the tutorial videos at").prefix().send(event.getWhoClicked());
+      new MessageBuilder("&6查看教程视频在").prefix().send(event.getWhoClicked());
       new MessageBuilder("&e " + SetupInventoryUtils.SetupInventoryStage.HOME.getTutorialURL(), false).send(event.getWhoClicked());
     }));
-
     setDefaultItem(ClickableItem.of(new ItemBuilder(XMaterial.BLACK_STAINED_GLASS_PANE.parseItem()).name(" ").build()));
   }
 }
