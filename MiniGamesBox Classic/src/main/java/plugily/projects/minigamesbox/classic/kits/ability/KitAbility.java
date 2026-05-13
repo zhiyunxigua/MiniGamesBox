@@ -1,19 +1,19 @@
 /*
- *  MiniGamesBox - Library box with massive content that could be seen as minigames core.
- *  Copyright (C) 2023 Plugily Projects - maintained by Tigerpanzer_02 and contributors
+ * MiniGamesBox - Library box with massive content that could be seen as minigames core.
+ * Copyright (C) 2026 Plugily Projects - maintained by Tigerpanzer_02 and contributors
  *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package plugily.projects.minigamesbox.classic.kits.ability;
@@ -21,6 +21,9 @@ package plugily.projects.minigamesbox.classic.kits.ability;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
@@ -66,17 +69,30 @@ public class KitAbility implements IKitAbility {
         playerInteractHandler.setCancelled(true);
         new MessageBuilder("KIT_CANNOT_WEAR_ARMOR").asKey().player(playerInteractHandler.getPlayer()).sendPlayer();
       }
-    }));
+    }, customPlayerPluginEvent -> {
+    }, blockPlaceEvent -> {
+    }, entityDeathEvent -> {
+    }, entityDamageByEntityEvent -> {
+    }
+    ));
   }
 
   private final String name;
   private final Consumer<InventoryClickEvent> clickConsumer;
   private final Consumer<PlugilyPlayerInteractEvent> interactConsumer;
+  private final Consumer<Player> customPlayerPluginConsumer;
+  private final Consumer<BlockPlaceEvent> blockPlaceConsumer;
+  private final Consumer<EntityDeathEvent> deathEventKillerConsumer;
+  private final Consumer<EntityDamageByEntityEvent> playerDamageConsumer;
 
-  public KitAbility(String name, Consumer<InventoryClickEvent> inventoryClickHandler, Consumer<PlugilyPlayerInteractEvent> playerInteractHandler) {
+  public KitAbility(String name, Consumer<InventoryClickEvent> inventoryClickHandler, Consumer<PlugilyPlayerInteractEvent> playerInteractHandler, Consumer<Player> customPlayerPluginHandler, Consumer<BlockPlaceEvent> blockPlaceHandler, Consumer<EntityDeathEvent> deathEventHandler, Consumer<EntityDamageByEntityEvent> playerDamageHandler) {
     this.name = name;
     this.clickConsumer = inventoryClickHandler;
     this.interactConsumer = playerInteractHandler;
+    this.customPlayerPluginConsumer = customPlayerPluginHandler;
+    this.blockPlaceConsumer = blockPlaceHandler;
+    this.deathEventKillerConsumer = deathEventHandler;
+    this.playerDamageConsumer = playerDamageHandler;
   }
 
   @Override
@@ -91,6 +107,22 @@ public class KitAbility implements IKitAbility {
 
   public Consumer<PlugilyPlayerInteractEvent> getInteractConsumer() {
     return interactConsumer;
+  }
+
+  public Consumer<Player> getCustomPlayerPluginConsumer() {
+    return customPlayerPluginConsumer;
+  }
+
+  public Consumer<BlockPlaceEvent> getBlockPlaceConsumer() {
+    return blockPlaceConsumer;
+  }
+
+  public Consumer<EntityDeathEvent> getDeathEventKillerConsumer() {
+    return deathEventKillerConsumer;
+  }
+
+  public Consumer<EntityDamageByEntityEvent> getPlayerDamageConsumer() {
+    return playerDamageConsumer;
   }
 
   public static Map<String, KitAbility> getKitAbilities() {

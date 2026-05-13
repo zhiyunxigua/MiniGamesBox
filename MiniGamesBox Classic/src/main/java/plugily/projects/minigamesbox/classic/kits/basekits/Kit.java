@@ -1,19 +1,19 @@
 /*
- *  MiniGamesBox - Library box with massive content that could be seen as minigames core.
- *  Copyright (C) 2023 Plugily Projects - maintained by Tigerpanzer_02 and contributors
+ * MiniGamesBox - Library box with massive content that could be seen as minigames core.
+ * Copyright (C) 2026 Plugily Projects - maintained by Tigerpanzer_02 and contributors
  *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package plugily.projects.minigamesbox.classic.kits.basekits;
@@ -29,8 +29,10 @@ import plugily.projects.minigamesbox.api.kit.ability.IKitAbility;
 import plugily.projects.minigamesbox.classic.PluginMain;
 import plugily.projects.minigamesbox.classic.kits.ability.KitAbility;
 import plugily.projects.minigamesbox.classic.utils.configuration.ConfigUtils;
+import plugily.projects.minigamesbox.classic.utils.version.VersionUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -65,6 +67,9 @@ public class Kit implements IKit {
   private ItemStack kitLeggings;
   private ItemStack kitBoots;
   private final List<KitAbility> kitAbilities = new ArrayList<>();
+  private double maxHealth;
+  private int maxFood;
+  private float walkSpeed;
 
   public Kit(String key, String name, List<String> description, ItemStack itemStack) {
     this.key = key;
@@ -72,6 +77,9 @@ public class Kit implements IKit {
     this.kitsConfig = ConfigUtils.getConfig(plugin, "/kits/" + key);
     this.description = description;
     this.itemStack = itemStack;
+    this.maxHealth = 20.0;
+    this.maxFood = 20;
+    this.walkSpeed = 0.2F;
   }
 
   @Override
@@ -164,6 +172,10 @@ public class Kit implements IKit {
     if(kitChestplate != null) player.getInventory().setChestplate(handleItem(player, kitChestplate));
     if(kitLeggings != null) player.getInventory().setLeggings(handleItem(player, kitLeggings));
     if(kitBoots != null) player.getInventory().setBoots(handleItem(player, kitBoots));
+    VersionUtils.setMaxHealth(player, maxHealth);
+    player.setHealth(VersionUtils.getMaxHealth(player));
+    player.setFoodLevel(maxFood);
+    player.setWalkSpeed(walkSpeed);
   }
 
   /**
@@ -250,8 +262,8 @@ public class Kit implements IKit {
     optionalConfiguration.put(path, object);
   }
 
-  public List<KitAbility> getAbilities() {
-    return kitAbilities;
+  public List<IKitAbility> getAbilities() {
+    return Collections.unmodifiableList(kitAbilities);
   }
 
   public void setAbilities(List<String> list) {
@@ -281,5 +293,17 @@ public class Kit implements IKit {
   Use the method with the kit optional configuration path, e.g. restock.material
    */
   public void reStock(Player player) {
+  }
+
+  public void setMaxFood(int maxFood) {
+    this.maxFood = maxFood;
+  }
+
+  public void setMaxHealth(double maxHealth) {
+    this.maxHealth = maxHealth;
+  }
+
+  public void setWalkSpeed(float walkSpeed) {
+    this.walkSpeed = walkSpeed;
   }
 }
